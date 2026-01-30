@@ -3,6 +3,8 @@ import {initLighting} from "./lighting";
 import {initLevel} from "./level";
 import {initializeObjects, physicsObjects} from "./objects";
 import {animateSpeed} from "./basicMotion";
+import {initializeSimpleOscillation} from "./tuningForkViz";
+import {animateSine } from "./animateFunctions"
 
 //Canvas
 const canvas = document.querySelector('canvas.webgl');
@@ -36,6 +38,7 @@ window.addEventListener('resize', () =>
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 camera.position.x = 0
 camera.rotation.y = Math.PI
+
 camera.position.y = 2
 camera.position.z = -10
 scene.add(camera)
@@ -45,6 +48,7 @@ scene.add(camera)
 initLighting(scene);
 initLevel(scene);
 initializeObjects(scene);
+initializeSimpleOscillation(scene);
 
 //Raycaster, mouse, click targets
 const raycaster = new THREE.Raycaster();
@@ -111,12 +115,9 @@ const animate = () =>
 {
     const elapsedTime = clock.getElapsedTime();
 
-    animateSpeed(physicsObjects.sphere, -3.5, 3.5, elapsedTime, clicked);
-
-    // Render
+    animateSine(physicsObjects.sphere, elapsedTime);
     renderer.render(scene, camera)
 
-    // Call tick again on the next frame
     window.requestAnimationFrame(animate)
 }
 

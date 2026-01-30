@@ -1,11 +1,11 @@
 import * as THREE from 'three'
 import {mathMaterials} from "./materials";
 
-const ballRadius = 0.5;
+const ballRadius = 0.25;
 const buttonRadius = 0.15;
 
 let testHeight = 3;
-let positionBegin = -3.5;
+let positionBegin = -4;
 
 export const physicsObjects = {
     objectGroup: null,
@@ -28,7 +28,7 @@ export function initializeObjects(scene) {
     buttonMesh.position.set(-5.25, 0, -4.9)
     physicsObjects.button = buttonMesh;
 
-    scene.add(physicsObjects.button);
+    // scene.add(physicsObjects.button);
 
 
 }

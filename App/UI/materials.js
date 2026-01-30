@@ -3,7 +3,7 @@ import {neutraColors} from "./colors";
 
 export const mathMaterials = {
             floorMaterial: new THREE.MeshStandardMaterial({
-            color: neutraColors.paleSkyBlue
+            color: neutraColors.terracotta
              }),
             threeMaterial: new THREE.MeshStandardMaterial({
                 roughness: 0.7,
