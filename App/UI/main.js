@@ -1,10 +1,9 @@
 import * as THREE from 'three'
-import {initLighting} from "./lighting";
-import {initLevel} from "./level";
-import {initializeObjects, physicsObjects} from "./objects";
-import {animateSpeed} from "./basicMotion";
-import {initializeSimpleOscillation} from "./tuningForkViz";
-import {animateSine } from "./animateFunctions"
+import {initLighting} from "./buildingblocks/lighting";
+import {initLevel} from "./buildingBlocks/level";
+import {initializeObjects, physicsObjects} from "./buildingBlocks/objects";
+import {initializeSimpleOscillation, animateSine} from "./sinusoidalMotion/tuningForkViz";
+import {initializeString, stringPoints, animateString} from "./string/waveEquation.js"
 
 //Canvas
 const canvas = document.querySelector('canvas.webgl');
@@ -34,21 +33,18 @@ window.addEventListener('resize', () =>
 })
 
 //Camera
-// Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.x = 0
-camera.rotation.y = Math.PI
 
-camera.position.y = 2
-camera.position.z = -10
+camera.position.y = 5
+camera.position.z = 10
 scene.add(camera)
-
 
 //Initialize Objects
 initLighting(scene);
 initLevel(scene);
 initializeObjects(scene);
 initializeSimpleOscillation(scene);
+initializeString(scene, 1000);
 
 //Raycaster, mouse, click targets
 const raycaster = new THREE.Raycaster();
@@ -115,9 +111,12 @@ const animate = () =>
 {
     const elapsedTime = clock.getElapsedTime();
 
-    animateSine(physicsObjects.sphere, elapsedTime);
-    renderer.render(scene, camera)
+    stringPoints.forEach(point => {
+        animateString(point, elapsedTime);
 
+    })
+
+    renderer.render(scene, camera)
     window.requestAnimationFrame(animate)
 }
 

@@ -30,7 +30,7 @@ export function initLevel(scene) {
     const backWall = createWall(floorWidth + floorThickness, floorThickness, wallHeight);
     backWall.rotation.x = Math.PI / 2;
     backWall.position.y = wallHeight / 2 - floorThickness / 2;
-    backWall.position.z = (floorWidth / 2) + floorThickness / 2
+    backWall.position.z = -(floorWidth / 2) + floorThickness / 2
     backWall.position.x = -floorThickness / 2;
     levelGroup.add(backWall);
 
@@ -56,7 +56,8 @@ export function initLevel(scene) {
     )
     sphere.castShadow = true
     scene.add(levelGroup);
-    levelGroup.rotation.x = -0.5;
+    levelGroup.rotation.x = 0.2;
+    levelGroup.position.set(0, 3, 0);
 
 
 

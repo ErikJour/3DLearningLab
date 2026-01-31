@@ -4,8 +4,8 @@ import {mathMaterials} from "./materials";
 const ballRadius = 0.25;
 const buttonRadius = 0.15;
 
-let testHeight = 3;
-let positionBegin = -4;
+let testHeight = 5;
+let positionBegin = 0;
 
 export const physicsObjects = {
     objectGroup: null,
@@ -20,7 +20,7 @@ export function initializeObjects(scene) {
     sphereMesh.position.set(positionBegin, testHeight, 1);
     sphereMesh.castShadow = true;
     physicsObjects.sphere = sphereMesh;
-    scene.add(physicsObjects.sphere);
+    // scene.add(physicsObjects.sphere);
 
     //Click Button
     const redButton = new THREE.SphereGeometry(buttonRadius, 32, 32);
