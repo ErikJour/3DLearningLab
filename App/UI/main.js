@@ -17,6 +17,38 @@ const sizes = {
     height: window.innerHeight
 };
 
+//Camera
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+
+camera.position.y = 5
+camera.position.z = 10
+scene.add(camera)
+
+//=======================================
+//Initialize Objects
+//=======================================
+initLighting(scene);
+initLevel(scene);
+initializeObjects(scene);
+initializeSimpleOscillation(scene);
+initializeString(scene, 1000);
+
+//=======================================
+//Raycaster, mouse, click targets
+//=======================================
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+const raycastList = [
+    physicsObjects.sphere,
+    physicsObjects.button
+];
+
+let clicked;
+
+//=======================================
+//Event Listeners
+//=======================================
 window.addEventListener('resize', () =>
 {
     // Update sizes
@@ -31,31 +63,6 @@ window.addEventListener('resize', () =>
     renderer.setSize(sizes.width, sizes.height)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 })
-
-//Camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-
-camera.position.y = 5
-camera.position.z = 10
-scene.add(camera)
-
-//Initialize Objects
-initLighting(scene);
-initLevel(scene);
-initializeObjects(scene);
-initializeSimpleOscillation(scene);
-initializeString(scene, 1000);
-
-//Raycaster, mouse, click targets
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
-
-const raycastList = [
-    physicsObjects.sphere,
-    physicsObjects.button
-];
-
-let clicked;
 
 canvas.addEventListener("pointerdown", (event) => {
     const screen = canvas.getBoundingClientRect();
@@ -93,7 +100,9 @@ canvas.addEventListener("pointerup", (event) => {
     clicked = false;
 });
 
-
+//=======================================
+//Renderer
+//=======================================
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas
 })
@@ -107,6 +116,9 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap
 //Clock
 const clock = new THREE.Clock()
 
+//=======================================
+//Render loop
+//=======================================
 const animate = () =>
 {
     const elapsedTime = clock.getElapsedTime();
