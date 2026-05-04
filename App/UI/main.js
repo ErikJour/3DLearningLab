@@ -102,7 +102,7 @@ canvas.addEventListener("pointerup", (event) => {
 });
 
 //=======================================================
-//JUCE Event Listener
+// JUCE Event Listener
 //=======================================================
 let oldEvent = 2.0;
 window.__JUCE__.backend.addEventListener("HiErik", (event) => {
@@ -110,7 +110,6 @@ window.__JUCE__.backend.addEventListener("HiErik", (event) => {
         console.log(event);
         oldEvent = event;
     }
-
 });
 
 //=======================================

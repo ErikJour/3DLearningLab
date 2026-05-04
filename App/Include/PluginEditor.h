@@ -24,6 +24,7 @@ private:
     using Resource = juce::WebBrowserComponent::Resource;
     std::optional<Resource> getResource(const juce::String& url);
     juce::WebBrowserComponent webViewGui;
+    bool browserReady = false;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessorEditor)
 };

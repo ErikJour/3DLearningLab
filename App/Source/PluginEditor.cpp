@@ -57,18 +57,20 @@ webViewGui{
 }
 
 {
+
     addAndMakeVisible(webViewGui);
     juce::String localServer = "http://localhost:5173/";
     webViewGui.goToURL(localServer);
     setSize (1000, 600);
-    startTimer(60);
-
+    juce::Timer::callAfterDelay(250, [this]()
+    {
+        browserReady = true;
+        startTimer(60);
+    });
 
 }
 
-AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor()
-{
-}
+AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor() = default;
 
 void AudioPluginAudioProcessorEditor::resized()
 {
@@ -77,21 +79,21 @@ void AudioPluginAudioProcessorEditor::resized()
 
 void AudioPluginAudioProcessorEditor::timerCallback()
 {
-    // envValue = audioProcessor.currentEnvelopeValue.load(std::memory_order_relaxed);
     sendtoUi(10.0f);
 
 }
 
 void AudioPluginAudioProcessorEditor::sendtoUi(float newValue)
 {
-    newValue = 10.0f;
+    if (!browserReady)
+        return;
+
     static const juce::Identifier EVENT_ID("HiErik");
     webViewGui.emitEventIfBrowserIsVisible(EVENT_ID, newValue);
 }
 
 auto AudioPluginAudioProcessorEditor::getResource(const juce::String& url) -> std::optional<Resource>
 {
-
 
     static const auto resourceFileRoot = juce::File{R"(/Users/ejourgensen/Projects/TDN-01/UI)"};
 

@@ -5,7 +5,7 @@ juce_add_plugin(MathAndPhysics
         NEEDS_MIDI_INPUT TRUE
         PLUGIN_MANUFACTURER_CODE ANIN
         PLUGIN_CODE MAPH
-        FORMATS Standalone VST3 AU      # <-- add formats here
+        FORMATS Standalone VST3 AU
         FORMATS STANDALONE
         NEEDS_WEBVIEW2 TRUE
         COPY_PLUGIN_AFTER_BUILD TRUE
@@ -21,10 +21,13 @@ target_sources(MathAndPhysics
         PRIVATE
         Source/PluginEditor.cpp
         Source/PluginProcessor.cpp
+        Source/DataStructures/LinkedOrbs.cpp
+        Source/DataStructures/Orb.cpp
 )
 
-target_include_directories(MathAndPhysics
-        PRIVATE include Source
+target_include_directories(MathAndPhysics PRIVATE include
+        Source
+        DataStructures
 )
 
 target_link_libraries(MathAndPhysics
