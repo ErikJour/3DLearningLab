@@ -2,6 +2,7 @@
 
 #include <juce_audio_processors/juce_audio_processors.h>
 #include "PluginProcessor.h"
+#include "DataStructures/LinkedOrbs.h"
 
 //==============================================================================
 class AudioPluginAudioProcessorEditor final : public juce::AudioProcessorEditor, public juce::Timer
@@ -13,7 +14,7 @@ public:
     //==============================================================================
     void resized() override;
     void timerCallback() override;
-    void sendtoUi(float newValue);
+    void sendtoUi(int newValue);
 
 
 
@@ -23,6 +24,7 @@ private:
     AudioPluginAudioProcessor& processorRef;
     using Resource = juce::WebBrowserComponent::Resource;
     std::optional<Resource> getResource(const juce::String& url);
+    std::unique_ptr<LinkedOrbs> myLinkedOrb;
     juce::WebBrowserComponent webViewGui;
     bool browserReady = false;
 

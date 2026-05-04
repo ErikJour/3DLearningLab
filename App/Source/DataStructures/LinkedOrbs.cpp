@@ -13,3 +13,22 @@ LinkedOrbs::LinkedOrbs(const int value)
     tail = newOrb;
     length = 1;
 }
+
+LinkedOrbs::~LinkedOrbs()
+{
+    const Orb* temporary = head;
+
+    while (temporary)
+    {
+        temporary = temporary->next;
+        delete temporary;
+        temporary = head;
+    }
+}
+
+int LinkedOrbs::getHead() const
+{
+    return head->value;
+}
+
+

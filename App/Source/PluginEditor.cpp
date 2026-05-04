@@ -41,7 +41,9 @@ namespace {
 }
 //==============================================================================
 AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAudioProcessor& p)
-    : AudioProcessorEditor (&p), processorRef (p),
+    : AudioProcessorEditor (&p),
+        processorRef (p),
+        myLinkedOrb (std::make_unique<LinkedOrbs>(250)),
 
 webViewGui{
     juce::WebBrowserComponent::Options{}
@@ -68,6 +70,8 @@ webViewGui{
         startTimer(60);
     });
 
+    LinkedOrbs* myLinkedOrb = new LinkedOrbs(5);
+
 }
 
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor() = default;
@@ -79,11 +83,12 @@ void AudioPluginAudioProcessorEditor::resized()
 
 void AudioPluginAudioProcessorEditor::timerCallback()
 {
-    sendtoUi(10.0f);
+    const int shareWithJS = myLinkedOrb->getHead();
+    sendtoUi(shareWithJS);
 
 }
 
-void AudioPluginAudioProcessorEditor::sendtoUi(float newValue)
+void AudioPluginAudioProcessorEditor::sendtoUi(const int newValue)
 {
     if (!browserReady)
         return;

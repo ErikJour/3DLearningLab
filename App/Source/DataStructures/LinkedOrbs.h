@@ -10,7 +10,8 @@ class LinkedOrbs
 {
     public:
         explicit LinkedOrbs(int value);
-        ~LinkedOrbs() = default;
+        ~LinkedOrbs();
+        int getHead() const;
 
     private:
         Orb* head;
