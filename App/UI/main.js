@@ -13,15 +13,16 @@ const scene = new THREE.Scene();
 
 //Sizes
 const sizes = {
-    width: window.innerWidth,
-    height: window.innerHeight
+    width: 1000,
+    height: 600
 };
 
 //Camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 
-camera.position.y = 5
-camera.position.z = 10
+camera.position.y = 1.5;
+camera.position.x = 0;
+camera.position.z = 10;
 scene.add(camera)
 
 //=======================================
@@ -31,7 +32,7 @@ initLighting(scene);
 initLevel(scene);
 initializeObjects(scene);
 initializeSimpleOscillation(scene);
-initializeString(scene, 1000);
+// initializeString(scene, 1000);
 
 //=======================================
 //Raycaster, mouse, click targets
@@ -100,6 +101,18 @@ canvas.addEventListener("pointerup", (event) => {
     clicked = false;
 });
 
+//=======================================================
+//JUCE Event Listener
+//=======================================================
+let oldEvent = 2.0;
+window.__JUCE__.backend.addEventListener("HiErik", (event) => {
+    if (event !== oldEvent) {
+        console.log(event);
+        oldEvent = event;
+    }
+
+});
+
 //=======================================
 //Renderer
 //=======================================
@@ -123,10 +136,10 @@ const animate = () =>
 {
     const elapsedTime = clock.getElapsedTime();
 
-    stringPoints.forEach(point => {
-        animateString(point, elapsedTime);
-
-    })
+    // stringPoints.forEach(point => {
+    //     animateString(point, elapsedTime);
+    //
+    // })
 
     renderer.render(scene, camera)
     window.requestAnimationFrame(animate)

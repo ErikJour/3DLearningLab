@@ -1,21 +1,14 @@
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE DEBUG CACHE STRING "Build type" FORCE)
-endif()
-
-if(APPLE)
-    set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
-    set(CMAKE_OSX_DEPLOYMENT_TARGET "11.0" CACHE STRING "" FORCE)
-endif()
-
 juce_add_plugin(MathAndPhysics
-    COMPANY NAME Animated Instruments
-    IS_SYNTH FALSE
-    NEEDS_MIDI_INPUT TRUE
-    PLUGIN_MANUFACTURER_CODE ANIN
-    PLUGIN_CODE MAPH
-    FORMATS STANDALONE
-    NEEDS_WEBVIEW2 TRUE
-    COPY_PLUGIN_AFTER_BUILD TRUE
+        COMPANY_NAME "Animated Instruments"
+        BUNDLE_ID "com.AnimatedInstruments.MathAndPhysics"
+        IS_SYNTH FALSE
+        NEEDS_MIDI_INPUT TRUE
+        PLUGIN_MANUFACTURER_CODE ANIN
+        PLUGIN_CODE MAPH
+        FORMATS Standalone VST3 AU      # <-- add formats here
+        FORMATS STANDALONE
+        NEEDS_WEBVIEW2 TRUE
+        COPY_PLUGIN_AFTER_BUILD TRUE
 )
 
 if(APPLE)
@@ -52,7 +45,6 @@ target_compile_definitions(MathAndPhysics
         JUCE_USE_WIN_WEBVIEW2_WITH_STATIC_LINKING=1
 )
 
-file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/../libs/juce/modules/juce_gui_extra/native/javascript"
+file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/../Libs/JUCE/modules/juce_gui_extra/native/javascript"
         DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}/UI/public/js/juce/"
 )
-

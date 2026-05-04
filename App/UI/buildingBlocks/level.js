@@ -56,8 +56,8 @@ export function initLevel(scene) {
     )
     sphere.castShadow = true
     scene.add(levelGroup);
-    levelGroup.rotation.x = 0.2;
-    levelGroup.position.set(0, 3, 0);
+    levelGroup.rotation.x = 0.3;
+    levelGroup.position.set(0, 0, 0);
 
 
 
