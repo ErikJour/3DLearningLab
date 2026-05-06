@@ -14,16 +14,17 @@ public:
     //==============================================================================
     void resized() override;
     void timerCallback() override;
-    void sendtoUi(int newValue);
-
-
+    void sendToUi(std::vector<int> newValue);
+    std::vector<int> sendLinkedOrbs();
+    std::vector<int> mOrbsVec = {};
+    bool sent = false;
 
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     AudioPluginAudioProcessor& processorRef;
     using Resource = juce::WebBrowserComponent::Resource;
-    std::optional<Resource> getResource(const juce::String& url);
+    static std::optional<Resource> getResource(const juce::String& url);
     std::unique_ptr<LinkedOrbs> myLinkedOrb;
     juce::WebBrowserComponent webViewGui;
     bool browserReady = false;

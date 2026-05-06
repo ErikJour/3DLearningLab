@@ -43,7 +43,7 @@ namespace {
 AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAudioProcessor& p)
     : AudioProcessorEditor (&p),
         processorRef (p),
-        myLinkedOrb (std::make_unique<LinkedOrbs>(250)),
+        myLinkedOrb (std::make_unique<LinkedOrbs>(130)),
 
 webViewGui{
     juce::WebBrowserComponent::Options{}
@@ -70,8 +70,13 @@ webViewGui{
         startTimer(60);
     });
 
-    LinkedOrbs* myLinkedOrb = new LinkedOrbs(5);
-
+    //===========================
+    //Add orbs
+    //===========================
+    myLinkedOrb->append(25);
+    myLinkedOrb->append(57);
+    myLinkedOrb->append(99);
+    mOrbsVec = sendLinkedOrbs();
 }
 
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor() = default;
@@ -83,18 +88,28 @@ void AudioPluginAudioProcessorEditor::resized()
 
 void AudioPluginAudioProcessorEditor::timerCallback()
 {
-    const int shareWithJS = myLinkedOrb->getHead();
-    sendtoUi(shareWithJS);
+
+    sendToUi(mOrbsVec);
 
 }
 
-void AudioPluginAudioProcessorEditor::sendtoUi(const int newValue)
+void AudioPluginAudioProcessorEditor::sendToUi(std::vector<int> newValue)
 {
     if (!browserReady)
         return;
+    if (sent == true) return;
+       else
+       {
+           static const juce::Identifier EVENT_ID("HiErik");
 
-    static const juce::Identifier EVENT_ID("HiErik");
-    webViewGui.emitEventIfBrowserIsVisible(EVENT_ID, newValue);
+           juce::Array<juce::var> varArray;
+           for (int v : newValue)
+               varArray.add(juce::var(v));
+
+           webViewGui.emitEventIfBrowserIsVisible(EVENT_ID, juce::var(varArray));
+           sent = true;
+       }
+
 }
 
 auto AudioPluginAudioProcessorEditor::getResource(const juce::String& url) -> std::optional<Resource>
@@ -104,13 +119,31 @@ auto AudioPluginAudioProcessorEditor::getResource(const juce::String& url) -> st
 
     const auto resourceToRetrieve =url == "/" ? "index.html" : url.fromFirstOccurrenceOf("/", false, false);
 
-    const auto resource = resourceFileRoot.getChildFile(resourceToRetrieve).createInputStream();
-
-    if (resource) {
+    if (const auto resource = resourceFileRoot.getChildFile(resourceToRetrieve).createInputStream()) {
 
         const auto extension = resourceToRetrieve.fromLastOccurrenceOf(".", false, false);
         return Resource{streamToVector(*resource), getMimeForExtension(extension)};
     }
 
     return std::nullopt;
+}
+
+std::vector<int> AudioPluginAudioProcessorEditor::sendLinkedOrbs()
+{
+    std::vector<int> orbsVec = {};
+
+    if (myLinkedOrb->length == 0) return orbsVec;
+
+    const auto* currentNode = myLinkedOrb->head;
+
+    for (int i = 0; i < myLinkedOrb->length; i++)
+    {
+        if (std::ranges::find(orbsVec, currentNode->value) == orbsVec.end()) {
+            orbsVec.push_back(currentNode->value);
+        }
+        if (!currentNode->next) return orbsVec;
+        currentNode = currentNode->next;
+
+    }
+        return  orbsVec;
 }

@@ -4,7 +4,11 @@ import {initLevel} from "./buildingBlocks/level";
 import {initializeObjects, physicsObjects} from "./buildingBlocks/objects";
 import {initializeSimpleOscillation, animateSine} from "./sinusoidalMotion/tuningForkViz";
 import {initializeString, stringPoints, animateString} from "./string/waveEquation.js"
+import {initializeOrbList} from "./OrbList/orbList";
 
+//============================================
+//Variables
+//============================================
 //Canvas
 const canvas = document.querySelector('canvas.webgl');
 
@@ -33,6 +37,7 @@ initLevel(scene);
 initializeObjects(scene);
 initializeSimpleOscillation(scene);
 // initializeString(scene, 1000);
+initializeOrbList(0, scene);
 
 //=======================================
 //Raycaster, mouse, click targets
@@ -107,7 +112,11 @@ canvas.addEventListener("pointerup", (event) => {
 let oldEvent = 2.0;
 window.__JUCE__.backend.addEventListener("HiErik", (event) => {
     if (event !== oldEvent) {
-        console.log(event);
+        console.log("Value from backend", event);
+        event.forEach((orb) => {
+            console.log(orb);
+            initializeOrbList(orb, scene)
+        });
         oldEvent = event;
     }
 });
