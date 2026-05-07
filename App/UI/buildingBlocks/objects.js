@@ -24,11 +24,10 @@ export function initializeObjects(scene) {
 
     //Click Button
     const redButton = new THREE.SphereGeometry(buttonRadius, 32, 32);
-    const buttonMesh = new THREE.Mesh(redButton, mathMaterials.redMaterial);
-    buttonMesh.position.set(-5.25, 0, -4.9)
+    const buttonMesh = new THREE.Mesh(redButton, mathMaterials.floorMaterial);
+    buttonMesh.position.set(4, -1, 5.5)
     physicsObjects.button = buttonMesh;
-
-    // scene.add(physicsObjects.button);
+    scene.add(physicsObjects.button);
 
 
 }

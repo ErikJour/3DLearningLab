@@ -57,9 +57,13 @@ webViewGui{
     juce::URL{ juce::WebBrowserComponent::getResourceProviderRoot() }
           .getOrigin())
     .withNativeIntegrationEnabled()
-
-    .withUserScript(R"(console.log("C++ Backend here: This is run before any other loading happens.");)")
-}
+    .withUserScript(R"(console.log("C++ Backend here");)")
+    .withNativeFunction(
+       juce::Identifier {"nativeFunction"},
+   [this](const juce::Array<juce::var>& args,
+   juce::WebBrowserComponent::NativeFunctionCompletion completion)
+   {nativeFunction(args, std::move(completion));
+})}
 
 {
     addAndMakeVisible(webViewGui);
@@ -152,4 +156,24 @@ std::vector<int> AudioPluginAudioProcessorEditor::sendLinkedOrbs()
 
     }
         return  orbsVec;
+}
+
+void AudioPluginAudioProcessorEditor::nativeFunction(const juce::Array<juce::var>& args,
+                              juce::WebBrowserComponent::NativeFunctionCompletion completion)
+{
+    juce::var params = args[0];
+    juce::String command = params[0].toString();
+
+    if (command == "deleteOrb") {
+
+        {
+            std::cout << "Called native function" << std::endl;
+            myLinkedOrb->deleteLast();
+            sent = false;
+
+
+        }
+
+
+    }
 }

@@ -12,7 +12,7 @@ console.log(font);
 const ballRadius = 0.25;
 let testHeight = 2.5;
 let positionBegin = -1;
-let orbs = [];
+export let orbs = [];
 //=========================================
 //Initialization
 //=========================================
@@ -21,12 +21,15 @@ export function getOrb(orb) {
     orbs.push(orb);
 }
 
+const min = 0;
+
 export function initializeOrbList(scene) {
+
+    orbs = orbs.filter(value => value >= min); // already excludes negatives and zero
+
     orbs.forEach((value, index) => {
         if (value > 0) {
             const orbGroup = new THREE.Group();
-
-
 
             //=========================================
             //Create Sphere
@@ -63,5 +66,4 @@ export function initializeOrbList(scene) {
             scene.add(orbGroup);
         }
     })
-
 }

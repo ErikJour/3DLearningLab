@@ -2,9 +2,9 @@ import * as THREE from 'three'
 import {initLighting} from "./buildingblocks/lighting";
 import {initLevel} from "./buildingBlocks/level";
 import {initializeObjects, physicsObjects} from "./buildingBlocks/objects";
-import {initializeSimpleOscillation, animateSine} from "./sinusoidalMotion/tuningForkViz";
-import {initializeString, stringPoints, animateString} from "./string/waveEquation.js"
+import {initializeSimpleOscillation} from "./sinusoidalMotion/tuningForkViz";
 import {getOrb, initializeOrbList} from "./OrbList/orbList";
+import * as Juce from "/public/js/juce/javascript/index.js"
 
 //============================================
 //Variables
@@ -37,17 +37,17 @@ initLevel(scene);
 initializeObjects(scene);
 initializeSimpleOscillation(scene);
 // initializeString(scene, 1000);
-// initializeOrbList(0, scene);
 
 //=======================================
 //Raycaster, mouse, click targets
 //=======================================
 const raycaster = new THREE.Raycaster();
+
 const mouse = new THREE.Vector2();
 
 const raycastList = [
     physicsObjects.sphere,
-    physicsObjects.button
+    physicsObjects.button,
 ];
 
 let clicked;
@@ -70,7 +70,8 @@ window.addEventListener('resize', () =>
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 })
 
-canvas.addEventListener("pointerdown", (event) => {
+function raycast()
+{
     const screen = canvas.getBoundingClientRect();
     mouse.x = ((event.clientX - screen.left) / screen.width) * 2 - 1;
     mouse.y = -((event.clientY - screen.top) / screen.height) * 2 + 1;
@@ -80,30 +81,22 @@ canvas.addEventListener("pointerdown", (event) => {
     const hit = raycaster.intersectObjects(raycastList, false)[0];
     if (!hit) return;
 
-    const obj = hit.object;
+    return hit.object;
+}
 
-    if (obj === physicsObjects.button) {
-        console.log("Clicked Button");
-        clicked = true;
-    }
+canvas.addEventListener("pointerdown", (event) => {
+    raycast();
 });
 
 canvas.addEventListener("pointerup", (event) => {
-    const screen = canvas.getBoundingClientRect();
-    mouse.x = ((event.clientX - screen.left) / screen.width) * 2 - 1;
-    mouse.y = -((event.clientY - screen.top) / screen.height) * 2 + 1;
+    let clickedObj = raycast();
+    if (clickedObj === physicsObjects.button) {
+        console.log("Clicked up Button, delete an orb");
+        nativeFunction(["deleteOrb"]);
 
-    raycaster.setFromCamera(mouse, camera);
-
-    const hit = raycaster.intersectObjects(raycastList, false)[0];
-    if (!hit) return;
-
-    const obj = hit.object;
-
-    if (obj === physicsObjects.button) {
-        console.log("Clicked up Button");
     }
     clicked = false;
+
 });
 
 //=======================================================
@@ -115,14 +108,16 @@ window.__JUCE__.backend.addEventListener("HiErik", (event) => {
         console.log("Value from backend", event);
         event.forEach((orb) => {
             getOrb(orb);
-            // initializeOrbList(orb, scene)
         });
         initializeOrbList(scene)
-
         oldEvent = event;
     }
 });
 
+//=======================================================
+// Dispatch to JUCE
+//=======================================================
+const nativeFunction = Juce.getNativeFunction("nativeFunction");
 //=======================================
 //Renderer
 //=======================================
