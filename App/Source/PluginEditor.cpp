@@ -1,6 +1,8 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
+
+
 namespace {
     auto streamToVector (juce::InputStream& stream) {
         using namespace juce;
@@ -55,27 +57,31 @@ webViewGui{
     juce::URL{ juce::WebBrowserComponent::getResourceProviderRoot() }
           .getOrigin())
     .withNativeIntegrationEnabled()
+
     .withUserScript(R"(console.log("C++ Backend here: This is run before any other loading happens.");)")
 }
 
 {
-
     addAndMakeVisible(webViewGui);
     juce::String localServer = "http://localhost:5173/";
+    webViewGui.onPageLoaded = [this]()
+    {
+        sent = false;
+        browserReady = false;
+        juce::Timer::callAfterDelay(250, [this]() {
+            browserReady = true;
+            startTimer(60); // ← add this
+        });
+    };
     webViewGui.goToURL(localServer);
     setSize (1000, 600);
-    juce::Timer::callAfterDelay(250, [this]()
-    {
-        browserReady = true;
-        startTimer(60);
-    });
-
     //===========================
     //Add orbs
     //===========================
     myLinkedOrb->append(25);
     myLinkedOrb->append(57);
     myLinkedOrb->append(99);
+
     mOrbsVec = sendLinkedOrbs();
 }
 

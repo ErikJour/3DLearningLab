@@ -4,6 +4,19 @@
 #include "PluginProcessor.h"
 #include "DataStructures/LinkedOrbs.h"
 
+struct TrackingWebView : juce::WebBrowserComponent
+{
+    std::function<void()> onPageLoaded;
+
+    TrackingWebView(juce::WebBrowserComponent::Options options)
+        : juce::WebBrowserComponent(options) {}
+
+    void pageFinishedLoading(const juce::String&) override
+    {
+        if (onPageLoaded) onPageLoaded();
+    }
+};
+
 //==============================================================================
 class AudioPluginAudioProcessorEditor final : public juce::AudioProcessorEditor, public juce::Timer
 {
@@ -26,7 +39,7 @@ private:
     using Resource = juce::WebBrowserComponent::Resource;
     static std::optional<Resource> getResource(const juce::String& url);
     std::unique_ptr<LinkedOrbs> myLinkedOrb;
-    juce::WebBrowserComponent webViewGui;
+    TrackingWebView webViewGui;
     bool browserReady = false;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessorEditor)

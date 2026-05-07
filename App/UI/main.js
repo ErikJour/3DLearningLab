@@ -4,7 +4,7 @@ import {initLevel} from "./buildingBlocks/level";
 import {initializeObjects, physicsObjects} from "./buildingBlocks/objects";
 import {initializeSimpleOscillation, animateSine} from "./sinusoidalMotion/tuningForkViz";
 import {initializeString, stringPoints, animateString} from "./string/waveEquation.js"
-import {initializeOrbList} from "./OrbList/orbList";
+import {getOrb, initializeOrbList} from "./OrbList/orbList";
 
 //============================================
 //Variables
@@ -37,7 +37,7 @@ initLevel(scene);
 initializeObjects(scene);
 initializeSimpleOscillation(scene);
 // initializeString(scene, 1000);
-initializeOrbList(0, scene);
+// initializeOrbList(0, scene);
 
 //=======================================
 //Raycaster, mouse, click targets
@@ -114,9 +114,11 @@ window.__JUCE__.backend.addEventListener("HiErik", (event) => {
     if (event !== oldEvent) {
         console.log("Value from backend", event);
         event.forEach((orb) => {
-            console.log(orb);
-            initializeOrbList(orb, scene)
+            getOrb(orb);
+            // initializeOrbList(orb, scene)
         });
+        initializeOrbList(scene)
+
         oldEvent = event;
     }
 });
