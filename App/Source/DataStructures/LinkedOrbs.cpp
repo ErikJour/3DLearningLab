@@ -5,6 +5,8 @@
 #include "LinkedOrbs.h"
 
 #include <ios>
+#include <iostream>
+#include <ostream>
 
 LinkedOrbs::LinkedOrbs(const int value)
 {
@@ -59,6 +61,7 @@ void LinkedOrbs::append(const int value)
 
 void LinkedOrbs::deleteLast()
 {
+    std::cout << "Deleting last" << std::endl;
     if (length == 0) return;
 
     Orb* temp = head;
@@ -127,6 +130,71 @@ bool LinkedOrbs::set(const int index, const int value) const
     }
     return false;
 }
+
+bool LinkedOrbs::insert(const int value, const int index)
+{
+    if (index < 0 || index > length)
+    {
+        return false;
+    }
+    if (index == 0)
+    {
+        prepend(value);
+        return true;
+    }
+    if (index == length)
+    {
+        append(value);
+        return true;
+    }
+    const auto newOrb = new Orb(value);
+    Orb* temp = get(index - 1);
+    newOrb->next = temp->next;
+    temp->next = newOrb;
+    length++;
+    return true;
+}
+
+void LinkedOrbs::deleteOrb(const int index)
+{
+    if (index < 0 || index >= length)
+    {
+        return;
+    }
+    if (index == 0)
+    {
+        return deleteFirst();
+    }
+    if (index == length - 1)
+    {
+        return deleteLast();
+    }
+    Orb* previous = get(index - 1);
+    const Orb* temp = previous->next;
+    previous->next = temp->next;
+    delete temp;
+    length--;
+}
+
+void LinkedOrbs::reverse()
+{
+    Orb* temp = head;
+    head = tail;
+    tail = temp;
+
+    Orb* before = nullptr;
+    Orb* after = nullptr;
+
+    for (int i = 0; i < length; i++)
+    {
+        after = temp->next;
+        temp->next = before;
+        before = temp;
+        temp = after;
+    }
+}
+
+
 
 
 

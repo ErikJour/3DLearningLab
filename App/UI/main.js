@@ -3,7 +3,7 @@ import {initLighting} from "./buildingblocks/lighting";
 import {initLevel} from "./buildingBlocks/level";
 import {initializeObjects, physicsObjects} from "./buildingBlocks/objects";
 import {initializeSimpleOscillation} from "./sinusoidalMotion/tuningForkViz";
-import {getOrb, initializeOrbList} from "./OrbList/orbList";
+import {clearOrbs, getOrb, initializeOrbList} from "./OrbList/orbList";
 import * as Juce from "/public/js/juce/javascript/index.js"
 
 //============================================
@@ -91,9 +91,7 @@ canvas.addEventListener("pointerdown", (event) => {
 canvas.addEventListener("pointerup", (event) => {
     let clickedObj = raycast();
     if (clickedObj === physicsObjects.button) {
-        console.log("Clicked up Button, delete an orb");
         nativeFunction(["deleteOrb"]);
-
     }
     clicked = false;
 
@@ -106,6 +104,8 @@ let oldEvent = 2.0;
 window.__JUCE__.backend.addEventListener("HiErik", (event) => {
     if (event !== oldEvent) {
         console.log("Value from backend", event);
+        clearOrbs();                      // ← wipe stale orb data first
+
         event.forEach((orb) => {
             getOrb(orb);
         });

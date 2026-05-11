@@ -98,9 +98,7 @@ void AudioPluginAudioProcessorEditor::resized()
 
 void AudioPluginAudioProcessorEditor::timerCallback()
 {
-
     sendToUi(mOrbsVec);
-
 }
 
 void AudioPluginAudioProcessorEditor::sendToUi(std::vector<int> newValue)
@@ -167,10 +165,10 @@ void AudioPluginAudioProcessorEditor::nativeFunction(const juce::Array<juce::var
     if (command == "deleteOrb") {
 
         {
-            std::cout << "Called native function" << std::endl;
+            std::cout << "Called delete orb" << std::endl;
             myLinkedOrb->deleteLast();
+            mOrbsVec = sendLinkedOrbs();
             sent = false;
-
 
         }
 

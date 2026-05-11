@@ -23,7 +23,27 @@ export function getOrb(orb) {
 
 const min = 0;
 
+export function clearOrbs() {
+    orbs = [];
+}
+
+let activeOrbGroup = [];
+
 export function initializeOrbList(scene) {
+
+    //remove old orbs
+    activeOrbGroup.forEach(group => {
+        scene.remove(group);
+        group.traverse(child => {
+            if (child.isMesh) {
+                child.geometry.dispose();
+                child.material.dispose();
+            }
+        });
+    });
+    activeOrbGroup = [];
+
+    orbs = orbs.filter(value => value > min);
 
     orbs = orbs.filter(value => value >= min); // already excludes negatives and zero
 
@@ -64,6 +84,7 @@ export function initializeOrbList(scene) {
             orbTextMesh.position.set((positionBegin - 0.15) + index * 0.75, testHeight - 0.6, 6);
             orbGroup.add(orbTextMesh);
             scene.add(orbGroup);
+            activeOrbGroup.push(orbGroup);
         }
     })
 }

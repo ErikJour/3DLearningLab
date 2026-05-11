@@ -18,8 +18,12 @@ class LinkedOrbs
         void deleteLast();
         void prepend(int value);
         void deleteFirst();
-        Orb* get(const int index) const;
-        bool set(const int index, const int value) const;
+        [[nodiscard]] Orb* get(int index) const;
+        [[nodiscard]] bool set(int index, int value) const;
+        bool insert(int value, int index);
+        void deleteOrb(int index);
+        void reverse();
+
         Orb* head;
         Orb* tail;
         int length;
