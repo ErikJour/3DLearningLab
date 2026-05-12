@@ -5,6 +5,7 @@ import {initializeObjects, physicsObjects} from "./buildingBlocks/objects";
 import {initializeSimpleOscillation} from "./sinusoidalMotion/tuningForkViz";
 import {clearOrbs, getOrb, initializeOrbList} from "./OrbList/orbList";
 import * as Juce from "/public/js/juce/javascript/index.js"
+import {createContextMenu, getNativeFunction, onContextMenu} from "./menuBoxes/nodeSelection";
 
 //============================================
 //Variables
@@ -88,10 +89,12 @@ canvas.addEventListener("pointerdown", (event) => {
     raycast();
 });
 
+
+
 canvas.addEventListener("pointerup", (event) => {
     let clickedObj = raycast();
     if (clickedObj === physicsObjects.button) {
-        nativeFunction(["deleteOrb"]);
+        onContextMenu(event, raycaster, mouse, camera);
     }
     clicked = false;
 
@@ -105,7 +108,7 @@ window.__JUCE__.backend.addEventListener("HiErik", (event) => {
     if (event !== oldEvent) {
         console.log("Value from backend", event);
         clearOrbs();                      // ← wipe stale orb data first
-
+        //
         event.forEach((orb) => {
             getOrb(orb);
         });
@@ -118,6 +121,7 @@ window.__JUCE__.backend.addEventListener("HiErik", (event) => {
 // Dispatch to JUCE
 //=======================================================
 const nativeFunction = Juce.getNativeFunction("nativeFunction");
+getNativeFunction(nativeFunction);
 //=======================================
 //Renderer
 //=======================================

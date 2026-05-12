@@ -172,6 +172,25 @@ void AudioPluginAudioProcessorEditor::nativeFunction(const juce::Array<juce::var
 
         }
 
+    }
 
+    if (command == "appendOrb") {
+
+        {
+            std::cout << "Called append orb" << std::endl;
+            myLinkedOrb->append(5);
+            mOrbsVec = sendLinkedOrbs();
+            sent = false;
+        }
+    }
+
+    if (command == "reverseOrbs") {
+
+        {
+            std::cout << "Called reverse orbs" << std::endl;
+            myLinkedOrb->reverse();
+            mOrbsVec = sendLinkedOrbs();
+            sent = false;
+        }
     }
 }
