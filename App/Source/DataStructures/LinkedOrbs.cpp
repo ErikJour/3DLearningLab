@@ -18,13 +18,11 @@ LinkedOrbs::LinkedOrbs(const int value)
 
 LinkedOrbs::~LinkedOrbs()
 {
-    const Orb* temporary = head;
-
-    while (temporary)
+    while (head)
     {
-        temporary = temporary->next;
-        delete temporary;
-        temporary = head;
+        const Orb* temp = head;
+        head = head->next;
+        delete temp;
     }
 }
 
@@ -112,7 +110,7 @@ void LinkedOrbs::deleteFirst()
 
 Orb* LinkedOrbs::get(const int index) const
 {
-    if (index == 0 || index >= length) return nullptr;
+    if (index < 0 || index >= length) return nullptr;
     Orb* temp = head;
     for (int i = 0; i < index; i++)
     {
@@ -193,6 +191,44 @@ void LinkedOrbs::reverse()
         temp = after;
     }
 }
+
+int LinkedOrbs::findMiddleOrb() const
+{
+    const Orb* fast = head;
+    const Orb* slow = head;
+    while (fast && fast->next)
+    {
+        fast = fast->next->next;
+        slow = slow->next;
+    }
+    std::cout << slow->value << std::endl;
+    return slow->value;
+}
+
+int LinkedOrbs::kthOrbFromEnd(const int index) const
+{
+    if (index == 0)
+    {
+        return 0;
+    }
+
+    const Orb* fast = head;
+
+    for (int i = 0; i < index; i++)
+    {
+        fast = fast->next;
+    }
+
+    const Orb* slow = head;
+    while (fast)
+    {
+        slow = slow->next;
+        fast = fast->next;
+    }
+    return slow->value;
+}
+
+
 
 
 

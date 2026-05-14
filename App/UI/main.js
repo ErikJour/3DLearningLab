@@ -5,7 +5,7 @@ import {initializeObjects, physicsObjects} from "./buildingBlocks/objects";
 import {initializeSimpleOscillation} from "./sinusoidalMotion/tuningForkViz";
 import {clearOrbs, getOrb, initializeOrbList} from "./OrbList/orbList";
 import * as Juce from "/public/js/juce/javascript/index.js"
-import {createContextMenu, getNativeFunction, onContextMenu} from "./menuBoxes/nodeSelection";
+import {getNativeFunction, onContextMenu} from "./menuBoxes/nodeSelection";
 
 //============================================
 //Variables
@@ -88,7 +88,6 @@ function raycast()
 canvas.addEventListener("pointerdown", (event) => {
     raycast();
 });
-
 
 
 canvas.addEventListener("pointerup", (event) => {

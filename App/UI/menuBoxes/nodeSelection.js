@@ -75,6 +75,32 @@ export function createContextMenu(x, y) {
     };
 
     //=================================================
+    //Find Middle
+    //=================================================
+    const middleButton = document.createElement('button');
+    middleButton.textContent = 'Find Middle';
+    middleButton.style.cssText = `
+            padding: 6px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.15s;
+            background: #c75a5a;
+            color: white;
+        `;
+    middleButton.addEventListener('mouseenter', () => {
+        middleButton.style.background = '#b04545';
+    });
+    middleButton.addEventListener('mouseleave', () => {
+        middleButton.style.background = '#c75a5a';
+    });
+    middleButton.onclick = () => {
+        mNativeFunction(["findMiddle"]);
+    };
+
+    //=================================================
     //Delete Node
     //=================================================
     const deleteButton = document.createElement('button');
@@ -151,9 +177,8 @@ export function createContextMenu(x, y) {
         removeContextMenu();
     };
 
-
-
     buttonContainer.appendChild(appendButton);
+    buttonContainer.appendChild(middleButton);
     buttonContainer.appendChild(deleteButton);
     buttonContainer.appendChild(reverseButton);
     buttonContainer.appendChild(cancelButton);

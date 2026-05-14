@@ -193,4 +193,15 @@ void AudioPluginAudioProcessorEditor::nativeFunction(const juce::Array<juce::var
             sent = false;
         }
     }
+
+    if (command == "findMiddle") {
+
+        {
+            std::cout << "Called find middle orb" << std::endl;
+            const int middle = myLinkedOrb->findMiddleOrb();
+
+        }
+    }
 }
+
+

@@ -23,6 +23,8 @@ class LinkedOrbs
         bool insert(int value, int index);
         void deleteOrb(int index);
         void reverse();
+        [[nodiscard]] int findMiddleOrb() const;
+        int kthOrbFromEnd(int index) const;
 
         Orb* head;
         Orb* tail;
