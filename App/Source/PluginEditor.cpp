@@ -45,7 +45,7 @@ namespace {
 AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAudioProcessor& p)
     : AudioProcessorEditor (&p),
         processorRef (p),
-        myLinkedOrb (std::make_unique<LinkedOrbs>(130)),
+        myLinkedOrb (std::make_unique<LinkedOrbs>(3)),
 
 webViewGui{
     juce::WebBrowserComponent::Options{}
@@ -82,9 +82,11 @@ webViewGui{
     //===========================
     //Add orbs
     //===========================
-    myLinkedOrb->append(25);
-    myLinkedOrb->append(57);
-    myLinkedOrb->append(99);
+    myLinkedOrb->append(6);
+    myLinkedOrb->append(3);
+    myLinkedOrb->append(9);
+    myLinkedOrb->append(8);
+    myLinkedOrb->append(6);
 
     mOrbsVec = sendLinkedOrbs();
 }
@@ -136,7 +138,7 @@ auto AudioPluginAudioProcessorEditor::getResource(const juce::String& url) -> st
     return std::nullopt;
 }
 
-std::vector<int> AudioPluginAudioProcessorEditor::sendLinkedOrbs()
+std::vector<int> AudioPluginAudioProcessorEditor::sendLinkedOrbs() const
 {
     std::vector<int> orbsVec = {};
 
@@ -146,9 +148,8 @@ std::vector<int> AudioPluginAudioProcessorEditor::sendLinkedOrbs()
 
     for (int i = 0; i < myLinkedOrb->length; i++)
     {
-        if (std::ranges::find(orbsVec, currentNode->value) == orbsVec.end()) {
-            orbsVec.push_back(currentNode->value);
-        }
+        orbsVec.push_back(currentNode->value);
+
         if (!currentNode->next) return orbsVec;
         currentNode = currentNode->next;
 
@@ -200,6 +201,16 @@ void AudioPluginAudioProcessorEditor::nativeFunction(const juce::Array<juce::var
             std::cout << "Called find middle orb" << std::endl;
             const int middle = myLinkedOrb->findMiddleOrb();
 
+        }
+    }
+
+    if (command == "removeDuplicates") {
+
+        {
+            std::cout << "Called remove duplicates" << std::endl;
+            myLinkedOrb->deleteDuplicates();
+            mOrbsVec = sendLinkedOrbs();
+            sent = false;
         }
     }
 }

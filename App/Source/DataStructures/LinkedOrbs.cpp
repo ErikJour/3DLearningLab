@@ -228,6 +228,32 @@ int LinkedOrbs::kthOrbFromEnd(const int index) const
     return slow->value;
 }
 
+void LinkedOrbs::deleteDuplicates()
+{
+    Orb* current = head;
+
+    while (current)
+    {
+        Orb* track = current;
+
+        while (track->next)
+        {
+            Orb* temp = track->next;
+            if (temp->value == current->value)
+            {
+                track->next = temp->next;
+                delete temp;
+                length--;
+            }
+            else
+            {
+                track = track->next;
+            }
+        }
+        current = current->next;
+    }
+}
+
 
 
 

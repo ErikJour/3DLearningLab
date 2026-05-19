@@ -52,7 +52,7 @@ export function createContextMenu(x, y) {
     //Append Node
     //=================================================
     const appendButton = document.createElement('button');
-    appendButton.textContent = 'Append Node';
+    appendButton.textContent = 'Append';
     appendButton.style.cssText = `
             padding: 6px 16px;
             font-size: 13px;
@@ -78,7 +78,7 @@ export function createContextMenu(x, y) {
     //Find Middle
     //=================================================
     const middleButton = document.createElement('button');
-    middleButton.textContent = 'Find Middle';
+    middleButton.textContent = 'Find Mid';
     middleButton.style.cssText = `
             padding: 6px 16px;
             font-size: 13px;
@@ -104,7 +104,7 @@ export function createContextMenu(x, y) {
     //Delete Node
     //=================================================
     const deleteButton = document.createElement('button');
-    deleteButton.textContent = 'Delete Node';
+    deleteButton.textContent = 'Delete';
     deleteButton.style.cssText = `
             padding: 6px 16px;
             font-size: 13px;
@@ -130,7 +130,7 @@ export function createContextMenu(x, y) {
     //Reverse
     //=================================================
     const reverseButton = document.createElement('button');
-    reverseButton.textContent = 'Reverse';
+    reverseButton.textContent = 'Rev';
     reverseButton.style.cssText = `
              padding: 6px 16px;
             font-size: 13px;
@@ -150,6 +150,31 @@ export function createContextMenu(x, y) {
     });
     reverseButton.onclick = () => {
         mNativeFunction(["reverseOrbs"]);
+    };
+    //=================================================
+    //Remove Duplicates
+    //=================================================
+    const removeDuplicateButton = document.createElement('button');
+    removeDuplicateButton.textContent = 'Rem Dups';
+    removeDuplicateButton.style.cssText = `
+             padding: 6px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.15s;
+            background: #e25a1f;
+            color: white;
+        `;
+    removeDuplicateButton.addEventListener('mouseenter', () => {
+        removeDuplicateButton.style.background = '#f0d4d0';
+    });
+    removeDuplicateButton.addEventListener('mouseleave', () => {
+        removeDuplicateButton.style.background = 'transparent';
+    });
+    removeDuplicateButton.onclick = () => {
+        mNativeFunction(["removeDuplicates"]);
     };
     //=================================================
     //Cancel
@@ -178,6 +203,7 @@ export function createContextMenu(x, y) {
     };
 
     buttonContainer.appendChild(appendButton);
+    buttonContainer.appendChild(removeDuplicateButton);
     buttonContainer.appendChild(middleButton);
     buttonContainer.appendChild(deleteButton);
     buttonContainer.appendChild(reverseButton);

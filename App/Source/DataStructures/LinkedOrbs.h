@@ -24,7 +24,8 @@ class LinkedOrbs
         void deleteOrb(int index);
         void reverse();
         [[nodiscard]] int findMiddleOrb() const;
-        int kthOrbFromEnd(int index) const;
+        [[nodiscard]] int kthOrbFromEnd(int index) const;
+        void deleteDuplicates();
 
         Orb* head;
         Orb* tail;

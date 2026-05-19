@@ -28,7 +28,7 @@ public:
     void resized() override;
     void timerCallback() override;
     void sendToUi(std::vector<int> newValue);
-    std::vector<int> sendLinkedOrbs();
+    std::vector<int> sendLinkedOrbs() const;
     std::vector<int> mOrbsVec = {};
     bool sent = false;
     void nativeFunction(const juce::Array<juce::var>& args,

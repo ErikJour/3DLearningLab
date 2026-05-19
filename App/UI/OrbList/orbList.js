@@ -45,7 +45,7 @@ export function initializeOrbList(scene) {
 
     orbs = orbs.filter(value => value > min);
 
-    orbs = orbs.filter(value => value >= min); // already excludes negatives and zero
+    orbs = orbs.filter(value => value >= min);
 
     orbs.forEach((value, index) => {
         if (value > 0) {
