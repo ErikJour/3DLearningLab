@@ -254,6 +254,36 @@ void LinkedOrbs::deleteDuplicates()
     }
 }
 
+int LinkedOrbs::binaryToDecimal() const
+{
+    if (head == nullptr) return 0;
+
+    const Orb* temp = head;
+
+    int sum = 0;
+
+    while (temp)
+    {
+        sum *= 2;
+        if (temp->value == 1)
+        {
+            sum += 1;
+        }
+
+        else
+        {
+            sum += 0;
+        }
+
+        temp = temp->next;
+    }
+
+    delete temp;
+    std::cout << "The Sum is: " << sum << std:: endl;
+    return sum;
+}
+
+
 
 
 

@@ -45,7 +45,7 @@ namespace {
 AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAudioProcessor& p)
     : AudioProcessorEditor (&p),
         processorRef (p),
-        myLinkedOrb (std::make_unique<LinkedOrbs>(3)),
+        myLinkedOrb (std::make_unique<LinkedOrbs>(0)),
 
 webViewGui{
     juce::WebBrowserComponent::Options{}
@@ -82,11 +82,9 @@ webViewGui{
     //===========================
     //Add orbs
     //===========================
-    myLinkedOrb->append(6);
-    myLinkedOrb->append(3);
-    myLinkedOrb->append(9);
-    myLinkedOrb->append(8);
-    myLinkedOrb->append(6);
+    myLinkedOrb->append(1);
+    myLinkedOrb->append(0);
+    myLinkedOrb->append(1);
 
     mOrbsVec = sendLinkedOrbs();
 }
@@ -211,6 +209,15 @@ void AudioPluginAudioProcessorEditor::nativeFunction(const juce::Array<juce::var
             myLinkedOrb->deleteDuplicates();
             mOrbsVec = sendLinkedOrbs();
             sent = false;
+        }
+    }
+
+    if (command == "binaryToDecimal") {
+
+        {
+            std::cout << "Called binary to decimal" << std::endl;
+            const int binary = myLinkedOrb->binaryToDecimal();
+            std::cout << binary << std::endl;
         }
     }
 }

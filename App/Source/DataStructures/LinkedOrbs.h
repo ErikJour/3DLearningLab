@@ -26,6 +26,7 @@ class LinkedOrbs
         [[nodiscard]] int findMiddleOrb() const;
         [[nodiscard]] int kthOrbFromEnd(int index) const;
         void deleteDuplicates();
+        int binaryToDecimal() const;
 
         Orb* head;
         Orb* tail;

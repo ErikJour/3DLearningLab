@@ -101,6 +101,32 @@ export function createContextMenu(x, y) {
     };
 
     //=================================================
+    //Binary button
+    //=================================================
+    const binaryButton = document.createElement('button');
+    binaryButton.textContent = 'Binary';
+    binaryButton.style.cssText = `
+            padding: 6px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.15s;
+            background: #c75a5a;
+            color: white;
+        `;
+    binaryButton.addEventListener('mouseenter', () => {
+        binaryButton.style.background = '#b04545';
+    });
+    binaryButton.addEventListener('mouseleave', () => {
+        binaryButton.style.background = '#c75a5a';
+    });
+    binaryButton.onclick = () => {
+        mNativeFunction(["binaryToDecimal"]);
+    };
+
+    //=================================================
     //Delete Node
     //=================================================
     const deleteButton = document.createElement('button');
@@ -203,6 +229,7 @@ export function createContextMenu(x, y) {
     };
 
     buttonContainer.appendChild(appendButton);
+    buttonContainer.appendChild(binaryButton);
     buttonContainer.appendChild(removeDuplicateButton);
     buttonContainer.appendChild(middleButton);
     buttonContainer.appendChild(deleteButton);
