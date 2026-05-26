@@ -283,6 +283,34 @@ int LinkedOrbs::binaryToDecimal() const
     return sum;
 }
 
+void LinkedOrbs::partitionList(const int x)
+{
+    Orb* dummyOne = new Orb(0);
+    Orb* dummyTwo = new Orb(0);
+    Orb* tempOne = dummyOne;
+    Orb* tempTwo = dummyTwo;
+
+    while (head)
+    {
+        if (head->value < x)
+        {
+            tempOne -> next = head;
+            tempOne = tempOne -> next;
+        }
+        else
+        {
+            tempTwo -> next = head;
+            tempTwo = tempTwo -> next;
+        }
+        head = head->next;
+    }
+    head = dummyOne -> next;
+    tempOne -> next = dummyTwo -> next;
+    tempTwo -> next = nullptr;
+    delete dummyOne;
+    delete dummyTwo;
+}
+
 
 
 

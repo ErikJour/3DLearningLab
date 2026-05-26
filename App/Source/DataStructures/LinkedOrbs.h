@@ -27,6 +27,7 @@ class LinkedOrbs
         [[nodiscard]] int kthOrbFromEnd(int index) const;
         void deleteDuplicates();
         int binaryToDecimal() const;
+        void partitionList(int x);
 
         Orb* head;
         Orb* tail;

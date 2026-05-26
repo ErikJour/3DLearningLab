@@ -203,6 +203,31 @@ export function createContextMenu(x, y) {
         mNativeFunction(["removeDuplicates"]);
     };
     //=================================================
+    //Remove Duplicates
+    //=================================================
+    const partitionList = document.createElement('button');
+    partitionList.textContent = 'Partition';
+    partitionList.style.cssText = `
+             padding: 6px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.15s;
+            background: #e25a1f;
+            color: white;
+        `;
+    partitionList.addEventListener('mouseenter', () => {
+        removeDuplicateButton.style.background = '#f0d4d0';
+    });
+    partitionList.addEventListener('mouseleave', () => {
+        removeDuplicateButton.style.background = 'transparent';
+    });
+    partitionList.onclick = () => {
+        mNativeFunction(["partitionList"]);
+    };
+    //=================================================
     //Cancel
     //=================================================
     const cancelButton = document.createElement('button');
@@ -229,6 +254,7 @@ export function createContextMenu(x, y) {
     };
 
     buttonContainer.appendChild(appendButton);
+    buttonContainer.appendChild(partitionList);
     buttonContainer.appendChild(binaryButton);
     buttonContainer.appendChild(removeDuplicateButton);
     buttonContainer.appendChild(middleButton);
