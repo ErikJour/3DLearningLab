@@ -3,6 +3,8 @@
 #include <juce_audio_processors/juce_audio_processors.h>
 #include "PluginProcessor.h"
 #include "DataStructures/LinkedOrbs.h"
+#include "DataStructures/HashTable.h"
+
 
 struct TrackingWebView : juce::WebBrowserComponent
 {
@@ -43,6 +45,8 @@ private:
     std::unique_ptr<LinkedOrbs> myLinkedOrb;
     TrackingWebView webViewGui;
     bool browserReady = false;
+
+    HashTable myHashTable;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessorEditor)
 };

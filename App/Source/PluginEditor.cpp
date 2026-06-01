@@ -88,6 +88,13 @@ webViewGui{
     myLinkedOrb->append(2);
 
     mOrbsVec = sendLinkedOrbs();
+
+    //Hash Table
+    myHashTable.set("nails", 100);
+    myHashTable.set("glue", 300);
+    myHashTable.set("screw", 50);
+
+    myHashTable.printTable();
 }
 
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor() = default;

@@ -23,6 +23,7 @@ target_sources(MathAndPhysics
         Source/PluginProcessor.cpp
         Source/DataStructures/LinkedOrbs.cpp
         Source/DataStructures/Orb.cpp
+        Source/DataStructures/HashTable.cpp
 )
 
 target_include_directories(MathAndPhysics PRIVATE include
