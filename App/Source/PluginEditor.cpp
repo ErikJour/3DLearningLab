@@ -45,7 +45,6 @@ namespace {
 AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAudioProcessor& p)
     : AudioProcessorEditor (&p),
         processorRef (p),
-        myLinkedOrb (std::make_unique<LinkedOrbs>(3)),
 
 webViewGui{
     juce::WebBrowserComponent::Options{}
@@ -67,28 +66,41 @@ webViewGui{
 
 {
     addAndMakeVisible(webViewGui);
-    juce::String localServer = "http://localhost:5173/";
+    const juce::String localServer = "http://localhost:5173/";
     webViewGui.onPageLoaded = [this]()
     {
         sent = false;
         browserReady = false;
         juce::Timer::callAfterDelay(250, [this]() {
             browserReady = true;
-            startTimer(60); // ← add this
+            startTimer(60);
         });
     };
     webViewGui.goToURL(localServer);
     setSize (1000, 600);
+
+    // initializeLinkedOrbs();
+    // initializeHashTable();
+
+}
+
+AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor() = default;
+
+void AudioPluginAudioProcessorEditor::initializeLinkedOrbs()
+{
     //===========================
     //Add orbs
     //===========================
+    myLinkedOrb = std::make_unique<LinkedOrbs>(3);
     myLinkedOrb->append(8);
     myLinkedOrb->append(5);
     myLinkedOrb->append(10);
     myLinkedOrb->append(2);
-
     mOrbsVec = sendLinkedOrbs();
+}
 
+void AudioPluginAudioProcessorEditor::initializeHashTable()
+{
     //Hash Table
     myHashTable.set("nails", 100);
     myHashTable.set("glue", 300);
@@ -97,7 +109,6 @@ webViewGui{
     myHashTable.printTable();
 }
 
-AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor() = default;
 
 void AudioPluginAudioProcessorEditor::resized()
 {

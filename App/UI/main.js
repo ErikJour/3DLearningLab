@@ -6,6 +6,7 @@ import {initializeSimpleOscillation} from "./sinusoidalMotion/tuningForkViz";
 import {clearOrbs, getOrb, initializeOrbList} from "./OrbList/orbList";
 import * as Juce from "/public/js/juce/javascript/index.js"
 import {getNativeFunction, onContextMenu} from "./menuBoxes/nodeSelection";
+import {initializeText} from "./text/labels";
 
 //============================================
 //Variables
@@ -24,11 +25,13 @@ const sizes = {
 
 //Camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-
-camera.position.y = 1.5;
-camera.position.x = 0;
-camera.position.z = 10;
+const cameraStart = new THREE.Vector3(0.0, 1.5, 10.0);
+camera.position.copy(cameraStart);
 scene.add(camera)
+
+// const cameraLinkedList  = new THREE.Vector3(0.0, 4, 6.0);
+// camera.position.copy(cameraLinkedList);
+// camera.rotation.x = -0.75
 
 //=======================================
 //Initialize Objects
@@ -37,6 +40,7 @@ initLighting(scene);
 initLevel(scene);
 initializeObjects(scene);
 initializeSimpleOscillation(scene);
+initializeText(scene)
 // initializeString(scene, 1000);
 
 //=======================================

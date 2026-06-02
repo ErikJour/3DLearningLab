@@ -11,6 +11,33 @@ export function getNativeFunction(nativeFunction)
     console.log("Got native function");
 }
 
+function createButtonItem(stringName, nativeFunctionName)
+{
+    const button = document.createElement('button');
+    button.textContent = stringName;
+    button.style.cssText = `
+            padding: 6px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.15s;
+            background: #c75a5a;
+            color: white;
+        `;
+    button.addEventListener('mouseenter', () => {
+        button.style.background = '#b04545';
+    });
+    button.addEventListener('mouseleave', () => {
+        button.style.background = '#c75a5a';
+    });
+    button.onclick = () => {
+        mNativeFunction([nativeFunctionName]);
+    };
+    return button;
+}
+
 export function createContextMenu(x, y) {
     removeContextMenu();
 
@@ -20,8 +47,8 @@ export function createContextMenu(x, y) {
     contextMenu = document.createElement('div');
     contextMenu.style.cssText = `
             position: absolute;
-            left: 500px;
-            top: ${y}px;
+            left: 100px;
+            top: 1750;
             background: #E5DDD3;
             border: 2px solid #B04A3A;
             border-radius: 6px;
@@ -44,189 +71,20 @@ export function createContextMenu(x, y) {
     const buttonContainer = document.createElement('div');
     buttonContainer.style.cssText = `
             display: flex;
+            flex-direction: column;
             justify-content: center;
             gap: 8px;
         `;
 
-    //=================================================
-    //Append Node
-    //=================================================
-    const appendButton = document.createElement('button');
-    appendButton.textContent = 'Append';
-    appendButton.style.cssText = `
-            padding: 6px 16px;
-            font-size: 13px;
-            font-weight: 600;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.15s;
-            background: #c75a5a;
-            color: white;
-        `;
-    appendButton.addEventListener('mouseenter', () => {
-        appendButton.style.background = '#b04545';
-    });
-    appendButton.addEventListener('mouseleave', () => {
-        appendButton.style.background = '#c75a5a';
-    });
-    appendButton.onclick = () => {
-        mNativeFunction(["appendOrb"]);
-    };
+    //Buttons
+    const appendButton = createButtonItem('append', "appendOrb");
+    const middleButton = createButtonItem('Find Mid', "findMiddle");
+    const binaryButton = createButtonItem('Binary', 'binaryToDecimal');
+    const deleteButton = createButtonItem('Delete', 'deleteOrb');
+    const reverseButton = createButtonItem('Reverse', 'reverseOrbs');
+    const removeDuplicateButton = createButtonItem('Remove Dups', 'removeDuplicates');
+    const partitionList = createButtonItem('Partition', 'partitionList');
 
-    //=================================================
-    //Find Middle
-    //=================================================
-    const middleButton = document.createElement('button');
-    middleButton.textContent = 'Find Mid';
-    middleButton.style.cssText = `
-            padding: 6px 16px;
-            font-size: 13px;
-            font-weight: 600;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.15s;
-            background: #c75a5a;
-            color: white;
-        `;
-    middleButton.addEventListener('mouseenter', () => {
-        middleButton.style.background = '#b04545';
-    });
-    middleButton.addEventListener('mouseleave', () => {
-        middleButton.style.background = '#c75a5a';
-    });
-    middleButton.onclick = () => {
-        mNativeFunction(["findMiddle"]);
-    };
-
-    //=================================================
-    //Binary button
-    //=================================================
-    const binaryButton = document.createElement('button');
-    binaryButton.textContent = 'Binary';
-    binaryButton.style.cssText = `
-            padding: 6px 16px;
-            font-size: 13px;
-            font-weight: 600;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.15s;
-            background: #c75a5a;
-            color: white;
-        `;
-    binaryButton.addEventListener('mouseenter', () => {
-        binaryButton.style.background = '#b04545';
-    });
-    binaryButton.addEventListener('mouseleave', () => {
-        binaryButton.style.background = '#c75a5a';
-    });
-    binaryButton.onclick = () => {
-        mNativeFunction(["binaryToDecimal"]);
-    };
-
-    //=================================================
-    //Delete Node
-    //=================================================
-    const deleteButton = document.createElement('button');
-    deleteButton.textContent = 'Delete';
-    deleteButton.style.cssText = `
-            padding: 6px 16px;
-            font-size: 13px;
-            font-weight: 600;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.15s;
-            background: #e25a1f;
-            color: white;
-        `;
-    deleteButton.addEventListener('mouseenter', () => {
-        deleteButton.style.background = '#b04545';
-    });
-    deleteButton.addEventListener('mouseleave', () => {
-        deleteButton.style.background = '#c75a5a';
-    });
-    deleteButton.onclick = () => {
-        mNativeFunction(["deleteOrb"]);
-
-    };
-    //=================================================
-    //Reverse
-    //=================================================
-    const reverseButton = document.createElement('button');
-    reverseButton.textContent = 'Rev';
-    reverseButton.style.cssText = `
-             padding: 6px 16px;
-            font-size: 13px;
-            font-weight: 600;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.15s;
-            background: #e25a1f;
-            color: white;
-        `;
-    reverseButton.addEventListener('mouseenter', () => {
-        reverseButton.style.background = '#f0d4d0';
-    });
-    reverseButton.addEventListener('mouseleave', () => {
-        reverseButton.style.background = 'transparent';
-    });
-    reverseButton.onclick = () => {
-        mNativeFunction(["reverseOrbs"]);
-    };
-    //=================================================
-    //Remove Duplicates
-    //=================================================
-    const removeDuplicateButton = document.createElement('button');
-    removeDuplicateButton.textContent = 'Rem Dups';
-    removeDuplicateButton.style.cssText = `
-             padding: 6px 16px;
-            font-size: 13px;
-            font-weight: 600;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.15s;
-            background: #e25a1f;
-            color: white;
-        `;
-    removeDuplicateButton.addEventListener('mouseenter', () => {
-        removeDuplicateButton.style.background = '#f0d4d0';
-    });
-    removeDuplicateButton.addEventListener('mouseleave', () => {
-        removeDuplicateButton.style.background = 'transparent';
-    });
-    removeDuplicateButton.onclick = () => {
-        mNativeFunction(["removeDuplicates"]);
-    };
-    //=================================================
-    //Remove Duplicates
-    //=================================================
-    const partitionList = document.createElement('button');
-    partitionList.textContent = 'Partition';
-    partitionList.style.cssText = `
-             padding: 6px 16px;
-            font-size: 13px;
-            font-weight: 600;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.15s;
-            background: #e25a1f;
-            color: white;
-        `;
-    partitionList.addEventListener('mouseenter', () => {
-        removeDuplicateButton.style.background = '#f0d4d0';
-    });
-    partitionList.addEventListener('mouseleave', () => {
-        removeDuplicateButton.style.background = 'transparent';
-    });
-    partitionList.onclick = () => {
-        mNativeFunction(["partitionList"]);
-    };
     //=================================================
     //Cancel
     //=================================================

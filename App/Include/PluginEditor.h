@@ -25,6 +25,8 @@ class AudioPluginAudioProcessorEditor final : public juce::AudioProcessorEditor,
 public:
     explicit AudioPluginAudioProcessorEditor (AudioPluginAudioProcessor&);
     ~AudioPluginAudioProcessorEditor() override;
+    void initializeLinkedOrbs();
+    void initializeHashTable();
 
     //==============================================================================
     void resized() override;
