@@ -61,4 +61,48 @@ void HashTable::set(const std::string& key, const int value)
     }
 }
 
+int HashTable::get(const std::string& key) const
+{
+    const int index = hashFunction(key);
+    auto temp = dataMap[index];
+    while (temp)
+    {
+        if (temp->key == key) return temp->value;
+        temp = temp->next;
+    }
+    return 0;
+}
+
+std::vector<std::string> HashTable::keys() const
+{
+    std::vector<std::string> allKeys;
+
+    for (auto temp : dataMap)
+    {
+        while (temp)
+        {
+            allKeys.push_back(temp->key);
+            temp = temp->next;
+        }
+    }
+    return allKeys;
+}
+
+bool HashTable::itemsInCommon(const std::vector<int>& vect1, const std::vector<int>& vect2)
+{
+    std::unordered_map<int, bool> hashMap;
+    for (auto i : vect1)
+    {
+        hashMap.insert({i, true});
+    }
+    for (auto j : vect2)
+    {
+        if (hashMap[j]) return true;
+    }
+    return false;
+}
+
+
+
+
 

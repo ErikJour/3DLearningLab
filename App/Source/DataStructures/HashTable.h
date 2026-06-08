@@ -5,6 +5,7 @@
 #ifndef MATHANDPHYSICS_HASHTABLE_H
 #define MATHANDPHYSICS_HASHTABLE_H
 #include "Node.h"
+#include <vector>
 
 
 class HashTable
@@ -15,6 +16,9 @@ public:
     void printTable() const;
     static int hashFunction (const std::string& key);
     void set(const std::string& key, int value);
+    [[nodiscard]] int get(const std::string& key) const;
+    [[nodiscard]] std::vector<std::string> keys() const;
+    static bool itemsInCommon(const std::vector<int>& vect1, const std::vector<int>& vect2);
 
 private:
     static constexpr int SIZE = 7;
