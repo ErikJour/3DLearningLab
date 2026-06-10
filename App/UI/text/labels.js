@@ -1,6 +1,8 @@
 import * as THREE from 'three'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
+import {mathMaterials} from "../buildingBlocks/materials";
+import {neutraColors} from "../buildingBlocks/colors";
 
 const PI = 3.14;
 /**
@@ -8,43 +10,94 @@ const PI = 3.14;
  */
 const fontLoader = new FontLoader();
 
-export function initializeText(scene) {
+export const textObjects = {
+    linkedList: null,
+    hashTable: null,
+    escLabel: null
+};
 
-    //===============================================
-    //Font Loader
-    //===============================================
-    fontLoader.load(
-        "/Fonts/Work Sans Light_Regular.json",
-        (font) =>
-        {
-            console.log('font loaded', font);  // ← does this fire?
 
-            const textGeometry = new TextGeometry(
-                'LinkedList',
+export function initializeText(scene, camera) {
+    return new Promise((resolve) => {
+            fontLoader.load(
+                "/Fonts/Work Sans Light_Regular.json",
+                (font) =>
                 {
-                    font: font,
-                    size: 0.2,
-                    height: 0.1,
-                    depth: 0.02,
-                    curveSegments: 12,
-                    bevelEnabled: true,
-                    bevelThickness: 0.03,
-                    bevelSize: 0.002,
-                    bevelOffset: 0,
-                    bevelSegments: 5
-                }
-            )
-            const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-            const text = new THREE.Mesh(textGeometry, textMaterial)
-            console.log(textGeometry.boundingBox)
-            textGeometry.computeBoundingBox();
-            textGeometry.center();
-            text.position.set(0, -1.2, 4.5);
-            text.rotation.x = -PI / 2;
-            scene.add(text)
+                    //=================
+                    //Linked List
+                    //=================
+                    const linkedListLabel = createTextLabel(font,
+                                                                                                'linkedlist',
+                                        0,
+                                        -1.1,
+                                        4.4
+                        )
+                    linkedListLabel.rotation.x = -PI / 2;
+                    textObjects.linkedList = linkedListLabel;
+                    scene.add(textObjects.linkedList);
+                    resolve(linkedListLabel);
+                    //=================
+                    //Hash Table
+                    //=================
+                    const hashTableLabel = createTextLabel(font,
+                        'Hash Table',
+                        4,
+                        0.,
+                        3
+                    )
+                    hashTableLabel.rotation.y = -PI / 2;
+                    hashTableLabel.rotation.x = 0.3;
+                    textObjects.hashTable = hashTableLabel;
+                    scene.add(textObjects.hashTable);
+                    resolve(hashTableLabel);
+
+                    //=================
+                    //Esc Table
+                    //=================
+                    const escLabel = createTextLabel(font,
+                        'Esc',
+                        2,
+                        -1,
+                        -2.5
+                    )
+                    textObjects.escLabel = escLabel;
+                    camera.add(textObjects.escLabel);
+                    resolve(escLabel);
+                })
         }
-    )
+    )}
+
+function createTextLabel(font, text, positionX, positionY, positionZ) {
+
+    const textGeometry = new TextGeometry(
+        text,
+        {
+            font: font,
+            size: 0.2,
+            height: 0.001,
+            depth: 0.02,
+            curveSegments: 12,
+            bevelEnabled: true,
+            bevelThickness: 0.003,
+            bevelSize: 0.002,
+            bevelOffset: 0,
+            bevelSegments: 5
+        })
+        const label = new THREE.Mesh(textGeometry,
+                                                                                mathMaterials.floorMaterial)
+        textGeometry.computeBoundingBox()
+        textGeometry.center();
+        textGeometry.translate(
+            - (textGeometry.boundingBox.max.x - 0.02) * 0.5, // Subtract bevel size
+            - (textGeometry.boundingBox.max.y - 0.02) * 0.5, // Subtract bevel size
+            - (textGeometry.boundingBox.max.z - 0.03) * 0.5  // Subtract bevel thickness
+        )
+        console.log("Text object inside initialize text", text);
+        label.position.set(positionX, positionY, positionZ);
+    return label;
+
 }
+
 
 
 

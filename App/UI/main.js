@@ -6,7 +6,7 @@ import {initializeSimpleOscillation} from "./sinusoidalMotion/tuningForkViz";
 import {clearOrbs, getOrb, initializeOrbList} from "./OrbList/orbList";
 import * as Juce from "/public/js/juce/javascript/index.js"
 import {getNativeFunction, onContextMenu} from "./menuBoxes/nodeSelection";
-import {initializeText} from "./text/labels";
+import {initializeText, textObjects} from "./text/labels";
 
 //============================================
 //Variables
@@ -29,9 +29,6 @@ const cameraStart = new THREE.Vector3(0.0, 1.5, 10.0);
 camera.position.copy(cameraStart);
 scene.add(camera)
 
-// const cameraLinkedList  = new THREE.Vector3(0.0, 4, 6.0);
-// camera.position.copy(cameraLinkedList);
-// camera.rotation.x = -0.75
 
 //=======================================
 //Initialize Objects
@@ -40,7 +37,7 @@ initLighting(scene);
 initLevel(scene);
 initializeObjects(scene);
 initializeSimpleOscillation(scene);
-initializeText(scene)
+await initializeText(scene, camera)
 // initializeString(scene, 1000);
 
 //=======================================
@@ -53,7 +50,12 @@ const mouse = new THREE.Vector2();
 const raycastList = [
     physicsObjects.sphere,
     physicsObjects.button,
+    textObjects.linkedList,
+    textObjects.hashTable,
+    textObjects.escLabel
 ];
+
+
 
 let clicked;
 
@@ -96,9 +98,30 @@ canvas.addEventListener("pointerdown", (event) => {
 
 canvas.addEventListener("pointerup", (event) => {
     let clickedObj = raycast();
+
     if (clickedObj === physicsObjects.button) {
         onContextMenu(event, raycaster, mouse, camera);
     }
+    if (clickedObj === textObjects.linkedList) {
+        const cameraLinkedList  = new THREE.Vector3(0.0, 4, 6.0);
+        camera.position.copy(cameraLinkedList);
+        camera.rotation.x = -0.75
+    }
+
+    if (clickedObj === textObjects.hashTable) {
+        const cameraHashTable  = new THREE.Vector3(0.0, 2, 0);
+        camera.position.copy(cameraHashTable);
+        camera.rotation.y = -Math.PI / 2
+        camera.rotation.x = 0.3
+    }
+
+    if (clickedObj === textObjects.escLabel) {
+        camera.position.copy(cameraStart);
+        camera.rotation.x = 0;
+        camera.rotation.y = 0;
+        camera.rotation.z = 0;
+    }
+
     clicked = false;
 
 });
@@ -109,7 +132,6 @@ canvas.addEventListener("pointerup", (event) => {
 let oldEvent = 2.0;
 window.__JUCE__.backend.addEventListener("HiErik", (event) => {
     if (event !== oldEvent) {
-        console.log("Value from backend", event);
         clearOrbs();                      // ← wipe stale orb data first
         //
         event.forEach((orb) => {
