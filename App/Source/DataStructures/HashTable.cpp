@@ -7,14 +7,10 @@
 #include <iostream>
 #include <ostream>
 
-HashTable::HashTable() : dataMap{}
-{
-}
+HashTable::HashTable() : dataMap{} {}
 
-HashTable::~HashTable()
-{
+HashTable::~HashTable() = default;
 
-}
 void HashTable::printTable() const
 {
     for (int i = 0; i < SIZE; i++)

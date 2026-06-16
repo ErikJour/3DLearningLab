@@ -7,6 +7,8 @@ import {clearOrbs, getOrb, initializeOrbList} from "./OrbList/orbList";
 import * as Juce from "/public/js/juce/javascript/index.js"
 import {getNativeFunction, onContextMenu} from "./menuBoxes/nodeSelection";
 import {initializeText, textObjects} from "./text/labels";
+import {mathMaterials} from "./buildingBlocks/materials";
+import {neutraColors} from "./buildingBlocks/colors";
 
 //============================================
 //Variables
@@ -52,7 +54,11 @@ const raycastList = [
     physicsObjects.button,
     textObjects.linkedList,
     textObjects.hashTable,
-    textObjects.escLabel
+    textObjects.escLabel,
+    textObjects.linkedListHitBox,
+    textObjects.hashTableHitBox,
+    textObjects.escLabelHitBox,
+    physicsObjects.buttonHitBox
 ];
 
 
@@ -93,29 +99,40 @@ function raycast()
 
 canvas.addEventListener("pointerdown", (event) => {
     raycast();
+    let clickedObj = raycast();
+    console.log(clickedObj);
+    if (clickedObj === physicsObjects.buttonHitBox) {
+        mathMaterials.buttonMaterial.color.set(neutraColors.oliveBrown);
+    }
+    if (clickedObj === textObjects.linkedListHitBox) {
+        mathMaterials.linkedListMaterial.color.set(neutraColors.oliveBrown);
+    }
 });
+
 
 
 canvas.addEventListener("pointerup", (event) => {
     let clickedObj = raycast();
 
-    if (clickedObj === physicsObjects.button) {
+    if (clickedObj === physicsObjects.buttonHitBox) {
         onContextMenu(event, raycaster, mouse, camera);
+        mathMaterials.buttonMaterial.color.set(neutraColors.terracotta);
     }
-    if (clickedObj === textObjects.linkedList) {
+    if (clickedObj === textObjects.linkedListHitBox) {
         const cameraLinkedList  = new THREE.Vector3(0.0, 4, 6.0);
         camera.position.copy(cameraLinkedList);
         camera.rotation.x = -0.75
+        mathMaterials.linkedListMaterial.color.set(neutraColors.sunlitSand);
     }
 
-    if (clickedObj === textObjects.hashTable) {
+    if (clickedObj === textObjects.hashTableHitBox) {
         const cameraHashTable  = new THREE.Vector3(0.0, 2, 0);
         camera.position.copy(cameraHashTable);
         camera.rotation.y = -Math.PI / 2
         camera.rotation.x = 0.3
     }
 
-    if (clickedObj === textObjects.escLabel) {
+    if (clickedObj === textObjects.escLabelHitBox) {
         camera.position.copy(cameraStart);
         camera.rotation.x = 0;
         camera.rotation.y = 0;
@@ -125,6 +142,22 @@ canvas.addEventListener("pointerup", (event) => {
     clicked = false;
 
 });
+
+canvas.addEventListener("mousemove", (event) => {
+    let hoveredObject = raycast();
+
+    if (hoveredObject === physicsObjects.buttonHitBox) {
+        mathMaterials.buttonMaterial.color.set(neutraColors.neutraBeige);
+    }
+    else if (hoveredObject === textObjects.linkedListHitBox) {
+        mathMaterials.linkedListMaterial.color.set(neutraColors.neutraBeige);
+    }
+    else {
+        mathMaterials.buttonMaterial.color.set(neutraColors.terracotta);
+        mathMaterials.linkedListMaterial.color.set(neutraColors.sunlitSand);
+
+    }
+})
 
 //=======================================================
 // JUCE Event Listener

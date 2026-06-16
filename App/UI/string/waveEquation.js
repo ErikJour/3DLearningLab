@@ -18,7 +18,7 @@ export function initializeString(scene, numPoints = 1000) {
     const stringLength = sineParams.mLength;
     for (let i = 0; i <= numPoints; i++) {
         const pointGeometry = new THREE.SphereGeometry(0.1, 8, 8);
-        const pointMaterial = mathMaterials.redMaterial;
+        const pointMaterial = mathMaterials.buttonMaterial;
         const point = new THREE.Mesh(pointGeometry, pointMaterial);
 
         point.position.x = ((i / numPoints) * stringLength) - 5;

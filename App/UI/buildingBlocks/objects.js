@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import {mathMaterials} from "./materials";
+import {addHitBox} from "../helpers/addHitBox";
 
 const ballRadius = 0.25;
 const buttonRadius = 0.15;
@@ -10,7 +11,8 @@ let positionBegin = 0;
 export const physicsObjects = {
     objectGroup: null,
     sphere: null,
-    button: null
+    button: null,
+    buttonHitBox: null
 };
 
 export function initializeObjects(scene) {
@@ -24,9 +26,10 @@ export function initializeObjects(scene) {
 
     //Click Button
     const redButton = new THREE.SphereGeometry(buttonRadius, 32, 32);
-    const buttonMesh = new THREE.Mesh(redButton, mathMaterials.floorMaterial);
-    buttonMesh.position.set(1.0, -1.2, 4.45)
+    const buttonMesh = new THREE.Mesh(redButton, mathMaterials.buttonMaterial);
+    buttonMesh.position.set(0.5, -1.2, 4.425)
     physicsObjects.button = buttonMesh;
+    physicsObjects.buttonHitBox = addHitBox(physicsObjects.button, {x: 0.3, y: 0.5, z: 0.5});
     scene.add(physicsObjects.button);
 
 }

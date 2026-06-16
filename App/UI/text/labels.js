@@ -3,6 +3,8 @@ import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 import {mathMaterials} from "../buildingBlocks/materials";
 import {neutraColors} from "../buildingBlocks/colors";
+import {addHitBox} from "../helpers/addHitBox";
+
 
 const PI = 3.14;
 /**
@@ -13,7 +15,10 @@ const fontLoader = new FontLoader();
 export const textObjects = {
     linkedList: null,
     hashTable: null,
-    escLabel: null
+    escLabel: null,
+    linkedListHitBox: null,
+    hashTableHitBox: null,
+    escLabelHitBox: null
 };
 
 
@@ -30,11 +35,14 @@ export function initializeText(scene, camera) {
                                                                                                 'linkedlist',
                                         0,
                                         -1.1,
-                                        4.4
+                                        4.4,
+                                        mathMaterials.linkedListMaterial
                         )
                     linkedListLabel.rotation.x = -PI / 2;
                     textObjects.linkedList = linkedListLabel;
                     scene.add(textObjects.linkedList);
+                    textObjects.linkedListHitBox = addHitBox(textObjects.linkedList, {x: 1.25, y: 0.5, z: 0.5});
+                    textObjects.linkedListHitBox.position.set(-0.25, 0, 0);
                     resolve(linkedListLabel);
                     //=================
                     //Hash Table
@@ -49,6 +57,7 @@ export function initializeText(scene, camera) {
                     hashTableLabel.rotation.x = 0.3;
                     textObjects.hashTable = hashTableLabel;
                     scene.add(textObjects.hashTable);
+                    textObjects.hashTableHitBox = addHitBox(textObjects.hashTable);
                     resolve(hashTableLabel);
 
                     //=================
@@ -62,12 +71,13 @@ export function initializeText(scene, camera) {
                     )
                     textObjects.escLabel = escLabel;
                     camera.add(textObjects.escLabel);
+                    textObjects.escLabelHitBox = addHitBox(textObjects.escLabel, {x: 0.5, y: 0.25, z: 0.5});
                     resolve(escLabel);
                 })
         }
     )}
 
-function createTextLabel(font, text, positionX, positionY, positionZ) {
+function createTextLabel(font, text, positionX, positionY, positionZ, material) {
 
     const textGeometry = new TextGeometry(
         text,
@@ -84,7 +94,8 @@ function createTextLabel(font, text, positionX, positionY, positionZ) {
             bevelSegments: 5
         })
         const label = new THREE.Mesh(textGeometry,
-                                                                                mathMaterials.floorMaterial)
+            material)
+
         textGeometry.computeBoundingBox()
         textGeometry.center();
         textGeometry.translate(
