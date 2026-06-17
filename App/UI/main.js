@@ -5,10 +5,12 @@ import {initializeObjects, physicsObjects} from "./buildingBlocks/objects";
 import {initializeSimpleOscillation} from "./sinusoidalMotion/tuningForkViz";
 import {clearOrbs, getOrb, initializeOrbList} from "./OrbList/orbList";
 import * as Juce from "/public/js/juce/javascript/index.js"
-import {getNativeFunction, onContextMenu} from "./menuBoxes/nodeSelection";
+import {onLinkedListMenu} from "./menuBoxes/linkedListMenu";
 import {initializeText, textObjects} from "./text/labels";
 import {mathMaterials} from "./buildingBlocks/materials";
 import {neutraColors} from "./buildingBlocks/colors";
+import {getNativeFunction} from "./menuBoxes/menuHelpers";
+import {onHashTableMenu} from "./menuBoxes/hashTableMenu";
 
 //============================================
 //Variables
@@ -50,7 +52,6 @@ const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
 const raycastList = [
-    physicsObjects.sphere,
     physicsObjects.button,
     textObjects.linkedList,
     textObjects.hashTable,
@@ -107,6 +108,14 @@ canvas.addEventListener("pointerdown", (event) => {
     if (clickedObj === textObjects.linkedListHitBox) {
         mathMaterials.linkedListMaterial.color.set(neutraColors.oliveBrown);
     }
+
+    if (clickedObj === textObjects.escLabelHitBox) {
+        mathMaterials.escLabelMaterial.color.set(neutraColors.oliveBrown);
+    }
+
+    if (clickedObj === textObjects.hashTableHitBox) {
+        mathMaterials.hashTableMaterial.color.set(neutraColors.oliveBrown);
+    }
 });
 
 
@@ -115,7 +124,8 @@ canvas.addEventListener("pointerup", (event) => {
     let clickedObj = raycast();
 
     if (clickedObj === physicsObjects.buttonHitBox) {
-        onContextMenu(event, raycaster, mouse, camera);
+        onLinkedListMenu(event, raycaster, mouse, camera);
+        onHashTableMenu(event, raycaster, mouse, camera);
         mathMaterials.buttonMaterial.color.set(neutraColors.terracotta);
     }
     if (clickedObj === textObjects.linkedListHitBox) {
@@ -130,6 +140,8 @@ canvas.addEventListener("pointerup", (event) => {
         camera.position.copy(cameraHashTable);
         camera.rotation.y = -Math.PI / 2
         camera.rotation.x = 0.3
+        mathMaterials.hashTableMaterial.color.set(neutraColors.sunlitSand);
+
     }
 
     if (clickedObj === textObjects.escLabelHitBox) {
@@ -137,6 +149,8 @@ canvas.addEventListener("pointerup", (event) => {
         camera.rotation.x = 0;
         camera.rotation.y = 0;
         camera.rotation.z = 0;
+        mathMaterials.escLabelMaterial.color.set(neutraColors.sunlitSand);
+
     }
 
     clicked = false;
@@ -152,9 +166,17 @@ canvas.addEventListener("mousemove", (event) => {
     else if (hoveredObject === textObjects.linkedListHitBox) {
         mathMaterials.linkedListMaterial.color.set(neutraColors.neutraBeige);
     }
+    else if (hoveredObject === textObjects.escLabelHitBox) {
+        mathMaterials.escLabelMaterial.color.set(neutraColors.neutraBeige);
+    }
+    else if (hoveredObject === textObjects.hashTableHitBox) {
+        mathMaterials.hashTableMaterial.color.set(neutraColors.neutraBeige);
+    }
     else {
         mathMaterials.buttonMaterial.color.set(neutraColors.terracotta);
         mathMaterials.linkedListMaterial.color.set(neutraColors.sunlitSand);
+        mathMaterials.escLabelMaterial.color.set(neutraColors.sunlitSand);
+        mathMaterials.hashTableMaterial.color.set(neutraColors.sunlitSand);
 
     }
 })

@@ -1,45 +1,11 @@
 // ========== CONTEXT MENU ==========
 import {physicsObjects} from "../buildingBlocks/objects";
+import {createButtonItem} from "./menuHelpers";
 
 let contextMenu = null;
 
-let mNativeFunction = null;
-
-export function getNativeFunction(nativeFunction)
-{
-    mNativeFunction = nativeFunction;
-    console.log("Got native function");
-}
-
-function createButtonItem(stringName, nativeFunctionName)
-{
-    const button = document.createElement('button');
-    button.textContent = stringName;
-    button.style.cssText = `
-            padding: 6px 16px;
-            font-size: 13px;
-            font-weight: 600;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.15s;
-            background: #c75a5a;
-            color: white;
-        `;
-    button.addEventListener('mouseenter', () => {
-        button.style.background = '#b04545';
-    });
-    button.addEventListener('mouseleave', () => {
-        button.style.background = '#c75a5a';
-    });
-    button.onclick = () => {
-        mNativeFunction([nativeFunctionName]);
-    };
-    return button;
-}
-
-export function createContextMenu(x, y) {
-    removeContextMenu();
+export function createLinkedListMenu(x, y) {
+    removeLinkedListMenu();
 
     //=================================================
     //Primary menu
@@ -108,7 +74,7 @@ export function createContextMenu(x, y) {
         cancelButton.style.background = 'transparent';
     });
     cancelButton.onclick = () => {
-        removeContextMenu();
+        removeLinkedListMenu();
     };
 
     buttonContainer.appendChild(appendButton);
@@ -124,14 +90,14 @@ export function createContextMenu(x, y) {
     document.body.appendChild(contextMenu);
 }
 
-function removeContextMenu() {
+function removeLinkedListMenu() {
     if (contextMenu && contextMenu.parentNode) {
         contextMenu.parentNode.removeChild(contextMenu);
         contextMenu = null;
     }
 }
 
-export const onContextMenu = (event, raycaster, mouse, camera) => {
+export const onLinkedListMenu = (event, raycaster, mouse, camera) => {
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
     raycaster.setFromCamera(mouse, camera);
@@ -139,7 +105,7 @@ export const onContextMenu = (event, raycaster, mouse, camera) => {
     const intersects = raycaster.intersectObjects([physicsObjects.button], true);
     if (intersects.length > 0) {
         event.preventDefault();
-        createContextMenu(event.clientX, event.clientY);
+        createLinkedListMenu(event.clientX, event.clientY);
     }
 };
 

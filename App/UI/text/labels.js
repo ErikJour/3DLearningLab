@@ -51,7 +51,8 @@ export function initializeText(scene, camera) {
                         'Hash Table',
                         4,
                         0.,
-                        3
+                        3,
+                        mathMaterials.hashTableMaterial
                     )
                     hashTableLabel.rotation.y = -PI / 2;
                     hashTableLabel.rotation.x = 0.3;
@@ -65,11 +66,13 @@ export function initializeText(scene, camera) {
                     //=================
                     const escLabel = createTextLabel(font,
                         'Esc',
-                        2,
-                        -1,
-                        -2.5
+                        2.425,
+                        -1.4,
+                        -2,
+                        mathMaterials.escLabelMaterial
                     )
                     textObjects.escLabel = escLabel;
+                    textObjects.escLabel.scale.set(0.5, 0.5, 0.5)
                     camera.add(textObjects.escLabel);
                     textObjects.escLabelHitBox = addHitBox(textObjects.escLabel, {x: 0.5, y: 0.25, z: 0.5});
                     resolve(escLabel);

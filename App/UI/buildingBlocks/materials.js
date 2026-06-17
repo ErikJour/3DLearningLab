@@ -18,6 +18,15 @@ export const mathMaterials = {
 
             linkedListMaterial: new THREE.MeshBasicMaterial({
                 color: neutraColors.sunlitSand
+            }),
+
+            escLabelMaterial: new THREE.MeshBasicMaterial({
+                color: neutraColors.sunlitSand
+            }),
+
+            hashTableMaterial: new THREE.MeshBasicMaterial({
+                color: neutraColors.sunlitSand
             })
+
 
 }
