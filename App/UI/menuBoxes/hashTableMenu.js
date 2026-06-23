@@ -43,8 +43,9 @@ export function createHashTableMenu(x, y) {
         `;
 
     //Buttons for Hash Table Functions
-    const printTable = createButtonItem('printTable', "printTable");
-
+    const printTable = createButtonItem('Print', "printTable");
+    const itemsinCommon = createButtonItem('In Common', "itemsInCommon");
+    const findDuplicates = createButtonItem('Duplicates', "findDuplicates");
 
     //=================================================
     //Cancel
@@ -73,6 +74,8 @@ export function createHashTableMenu(x, y) {
     };
 
     hashTableContainer.appendChild(printTable);
+    hashTableContainer.appendChild(itemsinCommon);
+    hashTableContainer.appendChild(findDuplicates);
     hashTableContainer.appendChild(cancelHtButton);
     hashTableMenu.appendChild(hashTableContainer);
     document.body.appendChild(hashTableMenu);
@@ -90,7 +93,7 @@ export const onHashTableMenu = (event, raycaster, mouse, camera) => {
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
     raycaster.setFromCamera(mouse, camera);
 
-    const intersects = raycaster.intersectObjects([physicsObjects.button], true);
+    const intersects = raycaster.intersectObjects([physicsObjects.hashTableButtonHitBox], true);
     if (intersects.length > 0) {
         event.preventDefault();
         createHashTableMenu(event.clientX, event.clientY);

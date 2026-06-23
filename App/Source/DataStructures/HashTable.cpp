@@ -87,16 +87,41 @@ std::vector<std::string> HashTable::keys() const
 bool HashTable::itemsInCommon(const std::vector<int>& vect1, const std::vector<int>& vect2)
 {
     std::unordered_map<int, bool> hashMap;
+
     for (auto i : vect1)
     {
         hashMap.insert({i, true});
     }
+
     for (auto j : vect2)
     {
         if (hashMap[j]) return true;
     }
+
     return false;
 }
+
+std::vector<int> HashTable::findDuplicates(const std::vector<int>& nums)
+{
+    std::vector<int> duplicates;
+    std::unordered_map<int, int> hashMap;
+
+    for (int i = 0; i < static_cast<int>(nums.size()); i++)
+    {
+        if (!hashMap.contains(nums[static_cast<uint32_t>(i)]))
+        {
+            hashMap[nums[static_cast<uint32_t>(i)]] = i;
+        } else
+        {
+            duplicates.push_back(nums[static_cast<uint32_t>(i)]);
+        }
+    }
+
+    return duplicates;
+}
+
+
+
 
 
 

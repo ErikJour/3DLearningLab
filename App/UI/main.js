@@ -59,10 +59,9 @@ const raycastList = [
     textObjects.linkedListHitBox,
     textObjects.hashTableHitBox,
     textObjects.escLabelHitBox,
-    physicsObjects.buttonHitBox
+    physicsObjects.linkedListHitBox,
+    physicsObjects.hashTableButtonHitBox
 ];
-
-
 
 let clicked;
 
@@ -102,7 +101,8 @@ canvas.addEventListener("pointerdown", (event) => {
     raycast();
     let clickedObj = raycast();
     console.log(clickedObj);
-    if (clickedObj === physicsObjects.buttonHitBox) {
+
+    if (clickedObj === physicsObjects.linkedListHitBox) {
         mathMaterials.buttonMaterial.color.set(neutraColors.oliveBrown);
     }
     if (clickedObj === textObjects.linkedListHitBox) {
@@ -116,6 +116,10 @@ canvas.addEventListener("pointerdown", (event) => {
     if (clickedObj === textObjects.hashTableHitBox) {
         mathMaterials.hashTableMaterial.color.set(neutraColors.oliveBrown);
     }
+
+    if (clickedObj === physicsObjects.hashTableButtonHitBox) {
+        mathMaterials.hashTableButtonMaterial.color.set(neutraColors.oliveBrown);
+    }
 });
 
 
@@ -123,9 +127,8 @@ canvas.addEventListener("pointerdown", (event) => {
 canvas.addEventListener("pointerup", (event) => {
     let clickedObj = raycast();
 
-    if (clickedObj === physicsObjects.buttonHitBox) {
+    if (clickedObj === physicsObjects.linkedListHitBox) {
         onLinkedListMenu(event, raycaster, mouse, camera);
-        onHashTableMenu(event, raycaster, mouse, camera);
         mathMaterials.buttonMaterial.color.set(neutraColors.terracotta);
     }
     if (clickedObj === textObjects.linkedListHitBox) {
@@ -153,6 +156,11 @@ canvas.addEventListener("pointerup", (event) => {
 
     }
 
+    if (clickedObj === physicsObjects.hashTableButtonHitBox) {
+        mathMaterials.hashTableButtonMaterial.color.set(neutraColors.terracotta);
+        onHashTableMenu(event, raycaster, mouse, camera);
+    }
+
     clicked = false;
 
 });
@@ -160,7 +168,7 @@ canvas.addEventListener("pointerup", (event) => {
 canvas.addEventListener("mousemove", (event) => {
     let hoveredObject = raycast();
 
-    if (hoveredObject === physicsObjects.buttonHitBox) {
+    if (hoveredObject === physicsObjects.linkedListHitBox) {
         mathMaterials.buttonMaterial.color.set(neutraColors.neutraBeige);
     }
     else if (hoveredObject === textObjects.linkedListHitBox) {
@@ -172,11 +180,16 @@ canvas.addEventListener("mousemove", (event) => {
     else if (hoveredObject === textObjects.hashTableHitBox) {
         mathMaterials.hashTableMaterial.color.set(neutraColors.neutraBeige);
     }
+    else if (hoveredObject === physicsObjects.hashTableButtonHitBox) {
+        mathMaterials.hashTableButtonMaterial.color.set(neutraColors.neutraBeige);
+    }
     else {
         mathMaterials.buttonMaterial.color.set(neutraColors.terracotta);
+        mathMaterials.hashTableButtonMaterial.color.set(neutraColors.terracotta);
         mathMaterials.linkedListMaterial.color.set(neutraColors.sunlitSand);
         mathMaterials.escLabelMaterial.color.set(neutraColors.sunlitSand);
         mathMaterials.hashTableMaterial.color.set(neutraColors.sunlitSand);
+
 
     }
 })

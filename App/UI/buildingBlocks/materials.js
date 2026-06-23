@@ -26,7 +26,11 @@ export const mathMaterials = {
 
             hashTableMaterial: new THREE.MeshBasicMaterial({
                 color: neutraColors.sunlitSand
-            })
+            }),
+
+            hashTableButtonMaterial: new THREE.MeshBasicMaterial({
+                color: neutraColors.terracotta
+    })
 
 
 }

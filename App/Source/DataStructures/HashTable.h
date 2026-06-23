@@ -19,6 +19,7 @@ public:
     [[nodiscard]] int get(const std::string& key) const;
     [[nodiscard]] std::vector<std::string> keys() const;
     static bool itemsInCommon(const std::vector<int>& vect1, const std::vector<int>& vect2);
+    static std::vector<int> findDuplicates(const std::vector<int>& nums);
 
 private:
     static constexpr int SIZE = 7;
