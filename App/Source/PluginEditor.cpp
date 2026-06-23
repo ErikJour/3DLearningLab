@@ -80,7 +80,7 @@ webViewGui{
     setSize (1000, 600);
 
     // initializeLinkedOrbs();
-    // initializeHashTable();
+    initializeHashTable();
 
 }
 
@@ -106,7 +106,7 @@ void AudioPluginAudioProcessorEditor::initializeHashTable()
     myHashTable.set("glue", 300);
     myHashTable.set("screw", 50);
 
-    myHashTable.printTable();
+    // myHashTable.printTable();
 }
 
 
@@ -141,7 +141,6 @@ void AudioPluginAudioProcessorEditor::sendToUi(std::vector<int> newValue)
 
 auto AudioPluginAudioProcessorEditor::getResource(const juce::String& url) -> std::optional<Resource>
 {
-
     static const auto resourceFileRoot = juce::File{R"(/Users/ejourgensen/Projects/TDN-01/UI)"};
 
     const auto resourceToRetrieve =url == "/" ? "index.html" : url.fromFirstOccurrenceOf("/", false, false);
@@ -180,8 +179,8 @@ void AudioPluginAudioProcessorEditor::nativeFunction(const juce::Array<juce::var
     juce::var params = args[0];
     juce::String command = params[0].toString();
 
+    //Linked Lists
     if (command == "deleteOrb") {
-
         {
             std::cout << "Called delete orb" << std::endl;
             myLinkedOrb->deleteLast();
@@ -193,7 +192,6 @@ void AudioPluginAudioProcessorEditor::nativeFunction(const juce::Array<juce::var
     }
 
     if (command == "appendOrb") {
-
         {
             std::cout << "Called append orb" << std::endl;
             myLinkedOrb->append(5);
@@ -203,7 +201,6 @@ void AudioPluginAudioProcessorEditor::nativeFunction(const juce::Array<juce::var
     }
 
     if (command == "reverseOrbs") {
-
         {
             std::cout << "Called reverse orbs" << std::endl;
             myLinkedOrb->reverse();
@@ -213,16 +210,13 @@ void AudioPluginAudioProcessorEditor::nativeFunction(const juce::Array<juce::var
     }
 
     if (command == "findMiddle") {
-
         {
             std::cout << "Called find middle orb" << std::endl;
             const int middle = myLinkedOrb->findMiddleOrb();
-
         }
     }
 
     if (command == "removeDuplicates") {
-
         {
             std::cout << "Called remove duplicates" << std::endl;
             myLinkedOrb->deleteDuplicates();
@@ -232,7 +226,6 @@ void AudioPluginAudioProcessorEditor::nativeFunction(const juce::Array<juce::var
     }
 
     if (command == "binaryToDecimal") {
-
         {
             std::cout << "Called binary to decimal" << std::endl;
             const int binary = myLinkedOrb->binaryToDecimal();
@@ -241,7 +234,6 @@ void AudioPluginAudioProcessorEditor::nativeFunction(const juce::Array<juce::var
     }
 
     if (command == "partitionList") {
-
         {
             std::cout << "Called partition list" << std::endl;
             myLinkedOrb->partitionList(5);
@@ -249,6 +241,33 @@ void AudioPluginAudioProcessorEditor::nativeFunction(const juce::Array<juce::var
             sent = false;
         }
     }
+
+    //Hash Table
+    if (command == "printTable") {
+        {
+            std::cout << "Called print table" << std::endl;
+            myHashTable.printTable();
+        }
+    }
+
+    if (command == "itemsInCommon") {
+        {
+            std::cout << "Called items in common" << std::endl;
+            std::vector<int> vecOne = {0, 4, 6, 2, 3};
+            std::vector<int> vecTwo = {3, 4, 5, 2, 1};
+            myHashTable.itemsInCommon(vecOne, vecTwo);
+        }
+    }
+
+    if (command == "findDuplicates") {
+        {
+            std::cout << "Called find duplicates" << std::endl;
+           std::vector<int> vecOne = {0, 4, 6, 2, 4};
+            myHashTable.findDuplicates(vecOne);
+        }
+    }
+
 }
+
 
 

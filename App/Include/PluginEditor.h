@@ -39,15 +39,14 @@ public:
                               juce::WebBrowserComponent::NativeFunctionCompletion completion);
 
 private:
-    // This reference is provided as a quick way for your editor to
-    // access the processor object that created it.
+
     AudioPluginAudioProcessor& processorRef;
     using Resource = juce::WebBrowserComponent::Resource;
     static std::optional<Resource> getResource(const juce::String& url);
-    std::unique_ptr<LinkedOrbs> myLinkedOrb;
     TrackingWebView webViewGui;
     bool browserReady = false;
 
+    std::unique_ptr<LinkedOrbs> myLinkedOrb;
     HashTable myHashTable;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessorEditor)
